@@ -1,0 +1,18 @@
+image: node:lts
+
+stages:
+  - deploy
+
+.deploy: &deploy
+  before_script:
+    - echo "Insert your before script here"
+  script:
+    - echo "Insert your script here"
+
+Deploy:
+  <<: *deploy
+  stage: deploy
+  script:
+    - echo "Insert your deploy script here"
+  only:
+    - master

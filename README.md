@@ -146,3 +146,23 @@ You may set the host, port and mount path by supplying the --host, --port and --
 NB: the --dev parameter is disabling production-ready security features, do not use this parameter when starting the dashboard in production. This parameter is useful if you are running on docker.
 
 After starting the dashboard, you can visit http://localhost:4040 in your browser.
+
+## Using the Job Scheduler
+
+This library is a minimalist tool that fetches all jobs scheduled objects and schedules cron tasks that will run the scheduled jobs.
+
+Simply create your job, for example
+
+```javascript
+Parse.Cloud.job("myJob", (request) =>  {
+      // params: passed in the job call
+      // headers: from the request that triggered the job
+      // log: the ParseServer logger passed in the request
+      // message: a function to update the status message of the job object
+      const { params, headers, log, message } = request;
+      message("I just started");
+      return doSomethingVeryLong(request);
+    });
+```
+
+Then, go to your Craft Dashboard, and schedule that job (```myjob```) you have just created. 

@@ -9,6 +9,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@brewery/parse-job-scheduler": "^1.0.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "parse": "^2.14.0",

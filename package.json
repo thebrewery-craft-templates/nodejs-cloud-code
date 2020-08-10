@@ -20,7 +20,7 @@
     "nodemon": "^1.9.2"
   },
   "scripts": {
-    "start": "concurrently --kill-others 'npm run server'",
+    "dev": "concurrently --kill-others 'npm run server'",
     "server": "VERBOSE=1 nodemon ./index.js"
   },
   "engines": {

@@ -80,7 +80,7 @@ If you want to export/import data from your Craft app, you can use your Adminer 
 
 After you have set it all up, it's time to run the Parse Server.:
 
-```npm start```
+```npm run dev```
 
 
 

@@ -21,7 +21,8 @@
   },
   "scripts": {
     "dev": "concurrently --kill-others 'npm run server'",
-    "server": "VERBOSE=1 nodemon ./index.js"
+    "server": "VERBOSE=1 nodemon ./index.js",
+    "start": "node ./index.js"
   },
   "engines": {
     "node": ">=4.3"

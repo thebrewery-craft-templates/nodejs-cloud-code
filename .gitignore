@@ -46,3 +46,5 @@ jspm_packages/
 
 # macos system file
 .DS_Store
+
+parse-config.js

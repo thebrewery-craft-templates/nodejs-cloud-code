@@ -45,23 +45,28 @@ In this article, we will use Visual Studio Code.
 
 #### 3.1. Configure your local Parse Server
 
-Open **index.js**, where you will see the Parse Server configuration. Keep in mind that this configuration will **only** affect your local Parse Server. It will look something like this:
+Set your development environment by renaming ***.env.example*** to ***.env*** and adjust the necessary variables. Normally, you will only need to change the DATABASE_URI.
+
+Rename **parse-config.js.example** to ***parse-config.js***, where you will see the Parse Server configuration. Keep in mind that this configuration will **only** affect your local Parse Server. It will look something like this:
 
 JavaScript
 
 ```javascript
-var port = process.env.PORT || 1337;
-var api = new ParseServer({
-    databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
-    appId: process.env.APP_ID || 'appId',
-    masterKey: process.env.MASTER_KEY || 'masterKey',
-    serverURL: process.env.SERVER_URL || 'http://localhost:' + port + '/parse',
-    cloud: process.env.CLOUD_CODE_MAIN || 'cloud/main.js',
+module.exports = {
+  databaseURI: process.env.DATABASE_URI || 'mongodb://localhost:27017/dev',
+  appId: process.env.APP_ID || 'myAppId',
+  clientKey: process.env.CLIENT_KEY || 'myClientKey',
+  masterKey: process.env.MASTER_KEY || 'masterKey', //Add your master key here. Keep it secret!
+  serverURL: process.env.SERVER_URL || 'http://localhost:1337/parse',
+  javascriptKey: process.env.JAVASCRIPT_KEY || 'myJSKey',
+  restAPIKey: process.env.REST_API_KEY || 'restAPIKey',
+  cloud: process.env.PARSE_CLOUD_CODE || './cloud/main.js',
+  liveQuery: {
+    classNames: [] // List of classes to support for query subscriptions example: [ 'Posts', 'Comments' ]
+  },
+  verbose: false
+}
 
-    liveQuery: {
-        classNames: []
-    }
-});
 ```
 
 Here, you can change things like your **Application Id** and **Master Key**. You will be running this Parse instance only locally, but it's still a good practice to change your **Master Key**. 

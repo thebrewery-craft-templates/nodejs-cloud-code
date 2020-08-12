@@ -5,7 +5,7 @@ const express = require('express');
 const cors = require('cors');
 const { default: ParseServer, ParseGraphQLServer } = require('parse-server');
 
-const options = require('./parse-config')
+const options = require('./parse-config');
 const databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
 
 if (!databaseUri) {
@@ -13,8 +13,6 @@ if (!databaseUri) {
 }
 
 const mountPath = process.env.PARSE_MOUNT || '/parse';
-const IS_DEVELOPMENT = process.env.NODE_ENV !== 'production'
-const DASHBOARD_AUTH = process.env.DASHBOARD_AUTH
 const port = process.env.PORT || 1337;
 const api = new ParseServer(options);
 const app = express();
@@ -24,14 +22,12 @@ app.use(cors());
 const parseGraphQLServer = new ParseGraphQLServer(
   api,
   {
-    graphQLPath: '/graphql',
-    playgroundPath: '/playground'
+    graphQLPath: '/graphql'
   }
 );
 
 
 parseGraphQLServer.applyGraphQL(app); // Mounts the GraphQL API
-parseGraphQLServer.applyPlayground(app);
 
 // Serve static assets from the /public folder
 app.use(express.static(path.join(__dirname, '/public')));
@@ -40,7 +36,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use('/', require('./cloud/main.js').app);
 
 // Serve the Parse API on the /parse URL prefix
-app.use(mountPath, api.app)
+app.use(mountPath, api.app);
 
 const httpServer = require('http').createServer(app);
 httpServer.listen(port, () => {

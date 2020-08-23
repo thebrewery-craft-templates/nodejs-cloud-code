@@ -1,6 +1,6 @@
 Welcome to the private repo of your application. Let's start brewing! 
 
-##### Developing of the Cloud Code
+##### Developing on Craft's Cloud Code
 
 `./cloud/main.js` is the root file which we import on Craft's cloud. **Don't change the name of the cloud directory nor move it**, or else your Cloud Code will not run properly.
 
@@ -47,7 +47,7 @@ In this article, we will use Visual Studio Code.
 
 Set your development environment by renaming ***.env.example*** to ***.env*** and adjust the necessary variables. Normally, you will only need to change the DATABASE_URI.
 
-Rename **parse-config.js.example** to ***parse-config.js***, where you will see the Parse Server configuration. Keep in mind that this configuration will **only** affect your local Parse Server. It will look something like this:
+Make necessary adjustments on your ```parse-config.js``` if needed. Keep in mind that this configuration will **only** affect your local Parse Server. It will look something like this:
 
 JavaScript
 

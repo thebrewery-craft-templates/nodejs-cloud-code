@@ -47,7 +47,7 @@ In this article, we will use Visual Studio Code.
 
 Set your development environment by renaming ***.env.example*** to ***.env*** and adjust the necessary variables. Normally, you will only need to change the DATABASE_URI.
 
-Rename **parse-config.js.example** to ***parse-config.js***, where you will see the Parse Server configuration. Keep in mind that this configuration will **only** affect your local Parse Server. It will look something like this:
+Make necessary adjusments to your ```parse-config.js``` if needed. Keep in mind that this configuration will **only** affect your local Parse Server. It will look something like this:
 
 JavaScript
 

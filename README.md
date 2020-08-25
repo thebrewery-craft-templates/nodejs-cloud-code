@@ -171,3 +171,22 @@ Parse.Cloud.job("myJob", (request) =>  {
 ```
 
 Then, go to your Craft Dashboard, and schedule that job (```myjob```) you have just created. 
+
+## Using the Email templates
+
+Built-in mail adapter for sending html email templates with Craft platform like (verificationEmail, passwordResetEmail) or a custom email template.
+
+You can use {{paramater}} in your template (using handlebarsjs). See [handlebars documentation](https://handlebars-archive.knappi.org/) for more deatils.
+
+Sample query via CURL:
+
+```bash
+curl -X POST \
+    -H "X-Parse-Application-Id: myAppId" \
+    -H "X-Parse-Master-Key: masterKey" \
+	-H "Content-Type: application/json" \
+	-d '{"to":"email@email.com", "subject": "Subject here", "templatePath": "template path", "templateData": {"data1": "value", "data2": "value"}}' \
+    http://localhost:1337/parse/functions/sendMail
+```
+
+

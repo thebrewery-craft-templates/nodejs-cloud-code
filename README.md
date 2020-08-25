@@ -176,6 +176,8 @@ Then, go to your Craft Dashboard, and schedule that job (```myjob```) you have j
 
 Built-in mail adapter for sending html email templates with Craft platform like (verificationEmail, passwordResetEmail) or a custom email template.
 
+To start configuring email templates, please goto your Craft app Settings page and look for email templates section.
+
 You can use {{paramater}} in your template (using handlebarsjs). See [handlebars documentation](https://handlebars-archive.knappi.org/) for more deatils.
 
 Sample query via CURL:

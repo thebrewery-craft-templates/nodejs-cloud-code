@@ -184,11 +184,11 @@ Sample query via CURL:
 
 ```bash
 curl -X POST \
-    -H "X-Parse-Application-Id: myAppId" \
-    -H "X-Parse-Master-Key: masterKey" \
-	-H "Content-Type: application/json" \
-	-d '{"to":"email@email.com", "subject": "Subject here", "templatePath": "template path", "templateData": {"data1": "value", "data2": "value"}}' \
-    http://localhost:1337/parse/functions/sendMail
+-H "X-Parse-Application-Id: myAppId" \
+-H "X-Parse-Master-Key: masterKey" \
+-H "Content-Type: application/json" \
+-d '{"to":"email@email.com", "subject": "Subject here", "templatePath": "template path", "templateData": {"data1": "value", "data2": "value"}}' \
+http://localhost:1337/parse/functions/sendMail
 ```
 
 

@@ -16,6 +16,35 @@ const mountPath = process.env.PARSE_MOUNT || '/parse';
 const port = process.env.PORT || 1337;
 const api = new ParseServer(options);
 const app = express();
+app.use(express.json());
+
+const newrelicParseServerName = process.env.NEWRELIC_PARSE_SERVER_NAME;
+const newrelicLicenseKey = process.env.NEWRELIC_LICENSE_KEY;
+if (newrelicLicenseKey && newrelicParseServerName) {
+  // Tag the user request for analytics purposes
+  const newrelic = require('newrelic');
+  const instrumentedPath = new RegExp('^' + mountPath + '((?!/users/me).)*$');
+  app.use(instrumentedPath, (req, res, next) => {
+    const sessionToken = req.headers['x-parse-session-token'] || req.body['_SessionToken'];
+    if (sessionToken) {
+      const parseServerUrl = req.protocol + '://' + req.get('host') + mountPath;
+      Parse.initialize(options.appId, options.javascriptKey, options.masterKey);
+      Parse.serverURL = parseServerUrl;
+      Parse.User.enableUnsafeCurrentUser();
+      Parse.User.become(sessionToken, { useMasterKey: true }).then(user => {
+        newrelic.addCustomAttribute('user_id', user.id);
+        next();
+      }, (error) => {
+        console.log(error);
+        next();
+      });
+    }
+    else {
+      next();
+    }
+  });
+}
+
 
 app.use(cors());
 

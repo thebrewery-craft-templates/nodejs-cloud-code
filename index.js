@@ -16,6 +16,7 @@ const mountPath = process.env.PARSE_MOUNT || '/parse';
 const port = process.env.PORT || 1337;
 const api = new ParseServer(options);
 const app = express();
+app.enable('trust proxy');
 app.use(express.json());
 
 const newrelicParseServerName = process.env.NEWRELIC_PARSE_SERVER_NAME;

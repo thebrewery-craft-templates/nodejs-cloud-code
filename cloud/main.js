@@ -1,6 +1,5 @@
 require('./functions');
-require('./job-scheduler'); 
-require('newrelic');
+require('./job-scheduler');
 
 /*
 * If you want to use Express-based Cloud Code,

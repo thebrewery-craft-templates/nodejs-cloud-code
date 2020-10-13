@@ -1,13 +1,13 @@
-Welcome to the private repo of your application. Let's start brewing! 
+## Welcome to the private repo of your application. Let's start brewing! 
 
-##### Developing of the Cloud Code
+##### Cloud Code development
 
 `./cloud/main.js` is the root file which we import on Craft's cloud. **Don't change the name of the cloud directory nor move it**, or else your Cloud Code will not run properly.
 
 ##### Hosting your website
 
 `public/` is the directory in which you can put your `html`, `css`, `js`, `images` files, in case you want to host your app website on Craft for example :)
-
+For example, you can add your Reacat app bundle or build on it.
 
 ##### Deploying to Craft
 

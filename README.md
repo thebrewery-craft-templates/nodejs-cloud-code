@@ -191,4 +191,16 @@ curl -X POST \
 http://localhost:1337/parse/functions/sendMail
 ```
 
+## Updating and Deploying your changes
 
+All changes to your code will be automatically deploy via Gitlab CI/CD workflow. 
+
+To check if your deployment is finished and Cloud Code is up and running, pls use this URL to get the status:
+
+```bash
+<your cloud code URL>/health
+```
+And it will response:
+```bash
+{"status":"ok"}
+```

@@ -13,6 +13,6 @@ app.get("/hello-craft", (req, res) => {
 
 /*
  * Exporting of module.exports = app is required.
- * we mount it automaticaly to the Parse Server Deployment (in ./index.js).
+ * we mount it automatically to the Parse Server Deployment (in ./index.js).
  */
 module.exports = app;

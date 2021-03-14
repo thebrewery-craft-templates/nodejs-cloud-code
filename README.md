@@ -6,12 +6,18 @@ This Cloud Code supports ES6, babel, and ESLint.
 We highly recommend the LTS version (Nodejs 12 or higher).
 ### Cloud Code development
 
+#### For Parse-based code
 `./cloud/main.js` is the root file which we import on Craft's cloud. **Don't change the name of the cloud directory nor move it**, or else your Cloud Code will not run properly.
 
+#### For Express-based code
+All your express-based code must reside inside `./express` folder. 
+> Remember that Express-based code does not have API authentication/authorization support. You need to implement your own authentication/authorization to make your Express-based API secure.
+
+<br/>
 ### Hosting your website
 
 `public/` is the directory in which you can put your `html`, `css`, `js`, `images` files, in case you want to host your app website on Craft for example :)
-For example, you can add your Reacat app bundle or build on it.
+For example, you can add your static React app's bundle/build on it.
 
 ### Deploying to Craft
 
@@ -144,7 +150,7 @@ Go to http://localhost:1337/playground to access GraphQL Playground
 
 # Using Parse Dashboard on your local machine
 
-Parse dashboard is accessible on http://localhost:1337/dashboard
+Parse dashboard is accessible at http://localhost:1337/dashboard
 
 <br/><br/>
 

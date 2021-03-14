@@ -2,6 +2,6 @@
  * Simple Parse Cloud Code Example
  */
 
-Parse.Cloud.define('hello', (req) => {
-  return "Hello! and welcome to Cloud Code Functions --from Craft Team";
+Parse.Cloud.define("hello", () => {
+  return "Hello! and welcome to Cloud Code (Parse) Functions --from Craft Team";
 });

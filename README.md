@@ -1,5 +1,7 @@
 ## Welcome to the private repo of your application. Let's start brewing! 
 
+##### Node Version
+We highly recommend the LTS version (Nodejs 12).
 ##### Cloud Code development
 
 `./cloud/main.js` is the root file which we import on Craft's cloud. **Don't change the name of the cloud directory nor move it**, or else your Cloud Code will not run properly.

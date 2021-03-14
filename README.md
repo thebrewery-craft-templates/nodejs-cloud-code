@@ -122,7 +122,6 @@ Parse.serverURL = 'http://localhost:1337/parse/';
 
 For more info on how to use Javascript SDK on client side, pls visit the official [Parse Javascript Guide](https://docs.parseplatform.org/js/guide/)
 
-<br/><br/>
 
 
 #### 3.4 Sample Cloud Code Function Query (via cURL)

@@ -110,7 +110,7 @@ Check that everything is working as expected by running:
 <br/><br/>
 
 
-By the way, this is how the code for connecting a JavaScript SDK instance to your local server looks like, in case you would want to test some queries or test your mobile app. When connecting to Craft, you will need to go to your app **Settings** page
+By the way, this is the code for connecting a JavaScript SDK instance to your local server looks like, in case you would want to test some queries or test your mobile app or frontend app. 
 
 JavaScript
 
@@ -118,10 +118,10 @@ JavaScript
 Parse.initialize("YOUR_APP_ID", "YOUR_JAVASCRIPT_KEY");
 Parse.serverURL = 'http://localhost:1337/parse/';
 ```
-⚠️ If the Masterkey needs to be provided, use the following. Please note that the master key should only be used in safe environments and never on client side.
+⚠️ Please note that the ***master key*** should only be used in safe environments and ***never*** on client side.
 
 ```javascript
-Parse.initialize("YOUR_APP_ID", "YOUR_JAVASCRIPT_KEY", "YOUR_MASTERKEY");
+Parse.initialize("YOUR_APP_ID", "YOUR_JAVASCRIPT_KEY");
 //javascriptKey is required only if you have it on server.
 
 Parse.serverURL = 'http://YOUR_PARSE_SERVER:1337/parse'

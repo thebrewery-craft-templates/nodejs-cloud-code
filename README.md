@@ -120,13 +120,6 @@ Parse.serverURL = 'http://localhost:1337/parse/';
 ```
 ⚠️ Please note that the ***master key*** should only be used in safe environments and ***never*** on client side.
 
-```javascript
-Parse.initialize("YOUR_APP_ID", "YOUR_JAVASCRIPT_KEY");
-//javascriptKey is required only if you have it on server.
-
-Parse.serverURL = 'http://YOUR_PARSE_SERVER:1337/parse'
-```
-
 For more info on how to use Javascript SDK on client side, pls visit the official [Parse Javascript Guide](https://docs.parseplatform.org/js/guide/)
 
 <br/><br/>

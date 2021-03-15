@@ -147,12 +147,7 @@ Hello! and welcome to Cloud Code (Express) Functions --from Craft Team%
 
 <br/>
 
-
-#### 3.5 Graphql Playground
-
-Go to http://localhost:1337/playground to access GraphQL Playground
-
-#### 3.6 Parse Dashboard 
+#### 3.5 Parse Dashboard 
 
 Parse dashboard is accessible at http://localhost:1337/dashboard
 

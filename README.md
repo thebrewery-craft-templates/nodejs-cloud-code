@@ -126,16 +126,25 @@ For more info on how to use Javascript SDK on client side, pls visit the officia
 
 #### 3.4 Sample Cloud Code Function Query (via cURL)
 
+For Parse-based functions:
+
 Query ```parse/functions/<function-name>``` via POST
 
 ```bash
-curl -X POST \
+$ curl -X POST \
         -H "X-Parse-Application-Id: your-app-id" \
         -H "X-Parse-Master-Key: your-master-key" \
         http://localhost:1337/parse/functions/hello
-{"result":"Hello! and welcome to Cloud Code Functions --from Craft Team"}%
+{"result":"Hello! and welcome to Cloud Code (Parse) Functions --from Craft Team"}%
 
 ```
+
+For Express-based functions:
+```bash
+$ curl http://localhost:1337/hello-craft
+Hello! and welcome to Cloud Code (Express) Functions --from Craft Team%
+```
+
 <br/>
 
 
@@ -143,11 +152,7 @@ curl -X POST \
 
 Go to http://localhost:1337/playground to access GraphQL Playground
 
-<br/><br/>
-
-
-
-# Using Parse Dashboard on your local machine
+#### 3.6 Parse Dashboard 
 
 Parse dashboard is accessible at http://localhost:1337/dashboard
 

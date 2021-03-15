@@ -35,7 +35,7 @@
   "scripts": {
     "dev": "concurrently --kill-others 'npm run server'",
     "server": "VERBOSE=1 nodemon ./index.js --exec babel-node",
-    "start": "nodemon ./index.js"
+    "start": "nodemon ./index.js --exec babel-node"
   },
   "engines": {
     "node": ">=4.3"

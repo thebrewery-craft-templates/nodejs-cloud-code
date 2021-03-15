@@ -7,7 +7,7 @@ require("dotenv").config();
 import { join } from "path";
 import express from "express";
 import cors from "cors";
-import { default as ParseServer, ParseGraphQLServer } from "parse-server";
+import { default as ParseServer } from "parse-server";
 import ParseDashboard from "parse-dashboard";
 
 const options = require("./parse-config");
@@ -84,12 +84,6 @@ if (process.env.IS_DEVELOPMENT) {
     )
   );
 }
-
-const parseGraphQLServer = new ParseGraphQLServer(api, {
-  graphQLPath: "/graphql",
-});
-
-parseGraphQLServer.applyGraphQL(app); // Mounts the GraphQL API
 
 // Serve static assets from the /public folder
 app.use(express.static(join(__dirname, "/public")));

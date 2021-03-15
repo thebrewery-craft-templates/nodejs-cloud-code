@@ -1,0 +1,4 @@
+description: Cloud Code using the parse-server module
+name: cloud-code
+tags: quickstart,nodejs,cloud-code
+version: v0.0.1

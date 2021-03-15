@@ -1,0 +1,119 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: {{ .Values.name }}
+  name: {{ .Values.name }}
+spec:
+  replicas: 1
+  selector:
+    app: {{ .Values.name }}
+    deploymentconfig: {{ .Values.name }}
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      post:
+        execNewPod:
+          command:
+          - /bin/sh
+          - -c
+          - 'sleep 10 && curl -X POST -H "X-Parse-Application-Id: {{ .Values.admin_parse_app_id }}"
+            -H "X-Parse-Master-Key: {{ .Values.admin_parse_master_key }}" -H "Content-Type: application/json"
+            -d ''{"projectName":"{{ .Values.project_name }}", "applicationName":"{{ .Values.param_cased_craft_app_name }}"}''
+            {{ .Values.admin_parse_server_url }}/functions/uploadApplePushCertificate && oc login
+            {{ .Values.openshift_url }} -u {{ .Values.openshift_username }} -p {{ .Values.openshift_password }} --insecure-skip-tls-verify
+            && oc project {{ .Values.project_name }} && oc get pods | grep -E "{{ .Values.name }}-.*?Running"
+            | grep -Ev "{{ .Values.name }}-.*-(deploy|hook-post).*?Running" && command=$(oc get
+            pods | grep -E "{{ .Values.name }}-.*?Running" | grep -Ev "{{ .Values.name }}-.*-(deploy|hook-post).*?Running")
+            && echo $command && podname=$(printf ''%s'' "$command" | cut -d " " -f
+            1) && echo $podname && oc exec $podname -c {{ .Values.name }} sh /opt/app-root/etc/post-script.sh
+            && curl -X POST -H "X-Parse-Application-Id: {{ .Values.admin_parse_app_id }}" -H
+            "X-Parse-Master-Key: {{ .Values.admin_parse_master_key }}" -H "Content-Type: application/json"
+            -d ''{"applicationName":"{{ .Values.param_cased_craft_app_name }}", "status":"READY"}''
+            {{ .Values.admin_parse_server_url }}/functions/updateAppStatus'
+          containerName: {{ .Values.name }}
+        failurePolicy: Abort
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+        deploymentconfig: {{ .Values.name }}
+    spec:
+      containers:
+      - env:
+        - name: SERVER_URL
+          value: {{ .Values.server_url }}
+        - name: PARSE_MOUNT
+          value: {{ .Values.parse_mount }}
+        - name: PORT
+          value: {{ .Values.port }}
+        - name: APP_ID
+          value: {{ .Values.app_id }}
+        - name: MASTER_KEY
+          value: {{ .Values.master_key }}
+        - name: CLIENT_KEY
+          value: {{ .Values.client_key }}
+        - name: JAVASCRIPT_KEY
+          value: {{ .Values.javascript_key }}
+        - name: REST_API_KEY
+          value: {{ .Values.rest_api_key }}
+        - name: WEBHOOK_KEY
+          value: {{ .Values.webhook_key }}
+        - name: FILE_KEY
+          value: {{ .Values.file_key }}
+        - name: DATABASE_URI
+          value: {{ .Values.database_uri }}
+        - name: PARSE_SERVER_MOUNT_GRAPHQL
+          value: {{ .Values.parse_server_mount_graphql }}
+        - name: PARSE_CLOUD_CODE
+          value: {{ .Values.parse_cloud_code }}
+        - name: PARSE_SERVER_START_LIVE_QUERY_SERVER
+          value: {{ .Values.parse_server_start_live_query_server }}
+        - name: VERIFY_USER_EMAILS
+          value: {{ .Values.verify_user_emails }}
+        - name: EMAIL_ADAPTER
+          value: {{ .Values.email_adapter }}
+        - name: EMAIL_FROM_ADDRESS
+          value: {{ .Values.email_from_address }}
+        - name: SMTP_USERNAME
+          value: {{ .Values.smtp_username }}
+        - name: SMTP_PASSWORD
+          value: {{ .Values.smtp_password }}
+        - name: SMTP_HOST
+          value: {{ .Values.smtp_host }}
+        - name: SMTP_SSL
+          value: {{ .Values.smtp_ssl }}
+        - name: SMTP_PORT
+          value: {{ .Values.smtp_port }}
+        - name: PREVENT_UNVERIFIED_LOGIN
+          value: {{ .Values.prevent_unverified_login }}
+        - name: LOG_LEVEL
+          value: {{ .Values.log_level }}
+        - name: PUSH_ENABLED
+          value: {{ .Values.push_enabled }}
+        - name: NEWRELIC_PARSE_SERVER_NAME
+          value: {{ .Values.newrelic_parse_server_name }}
+        - name: NEWRELIC_LICENSE_KEY
+          value: {{ .Values.newrelic_license_key }}
+        image: ""
+        imagePullPolicy: Always
+        name: {{ .Values.name }}
+        ports:
+        - containerPort: {{ .Values.port }}
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - {{ .Values.name }}
+      from:
+        kind: ImageStreamTag
+        name: {{ .Values.name }}:latest
+    type: ImageChange

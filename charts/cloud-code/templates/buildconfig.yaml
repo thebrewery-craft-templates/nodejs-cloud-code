@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: {{ .Values.name }}
+  name: {{ .Values.name }}
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: {{ .Values.name }}:latest
+  postCommit:
+    command:
+    - 'curl -X POST -H "X-Parse-Application-Id: {{ .Values.admin_parse_app_id }}" -H "X-Parse-Master-Key:
+      {{ .Values.admin_parse_master_key }}" -H "Content-Type: application/json" -d ''{"applicationName":"{{ .Values.param_cased_craft_app_name }}",
+      "status":"REDEPLOYING"}'' {{ .Values.admin_parse_server_url }}/functions/updateAppStatus'
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      uri: {{ .Values.git_source_uri }}
+    sourceSecret:
+      name: openshift-admin-gitlab-secret
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: s2i-cloud-code:latest
+        namespace: openshift
+    type: Source
+  triggers:
+  - gitlab:
+      secret: {{ .Values.webhook_key }}
+    type: GitLab
+  - type: ConfigChange
+  - type: ImageChange

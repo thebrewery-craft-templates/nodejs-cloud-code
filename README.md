@@ -1,21 +1,43 @@
-## Welcome to the private repo of your application. Let's start brewing! 
+# Welcome to the private repo of your application!
+> This Cloud Code supports nodemon, Jasmine, ESLint & ES6 using ESM. The ESM (EcmaScript Modules) specification introduced with the ES6 (or ES2015) norm describes how import and export modules in JavaScript. From now, it is possible to use ESM quasi nativelly -- without the help of Babel!
 
-##### Cloud Code development
+<br/>
+
+# Let's start brewing! 
+
+### 1. Node Version
+We highly recommend the LTS version (Node.js 12 or higher).
+### 2. Cloud Code development
+
+#### 2.1. For Parse-based code
+All your Parse-based code must reside inside `./cloud` folder.
 
 `./cloud/main.js` is the root file which we import on Craft's cloud. **Don't change the name of the cloud directory nor move it**, or else your Cloud Code will not run properly.
 
-##### Hosting your website
+For Parse Cloud API reference and guide:
+- https://docs.parseplatform.org/js/guide/
+- https://parseplatform.org/Parse-SDK-JS/api/master/Parse.Cloud.html
+
+
+#### 2.2. For Express-based code
+All your Express-based code must reside inside `./express` folder. 
+> Remember that Express-based code does not have API authentication/authorization support. You need to implement your own authentication/authorization to make your Express-based API secure.
+
+
+### 3. Hosting your website
 
 `public/` is the directory in which you can put your `html`, `css`, `js`, `images` files, in case you want to host your app website on Craft for example :)
-For example, you can add your Reacat app bundle or build on it.
+For example, you can add your static React app's bundle/build on it.
 
-##### Deploying to Craft
+### 4. Deploying your code
 
 When you `git push` changes to the `master` branch of this repo, Craft automatically deploys the code to the servers that your app is working on. 
 
 > Remember every push to the `master` branch triggers a deploy. If you want to push you changes without triggering of a deploy, you can push them to the `development` branch for example and when you are done with all the changes ... just merge with the `master` branch.
 
-## Test Craft Cloud Code locally on your computer
+<br/><br/>
+
+# Test Craft Cloud Code locally on your computer
 
 So, you have created your first Craft app that comes with built in cloud code functionality and are now wondering what would be the best way to test it. Of course, one of the obvious solutions would be to do a `git push` every time, then test it through the API Console, another REST or GraphQL client, or your app directly. However, you and I both know that there has to be a better way, right?
 
@@ -29,15 +51,9 @@ You can go to your Gitlab profile and find the repo of your app. It will be in `
 
 After you have the repo URL, go to your terminal and run `git clone`.
 
-
-
-
-
 ### 2. Install the npm modules of your app
 
-This will require you to have **node.js** and **npm** installed on your system. We recommend **node.js v10.x** or later.
-
-
+This will require you to have **node.js** and **npm** installed on your system. We recommend **node.js v12.x** or later.
 
 ### 3. Open the directory in your favorite Editor/IDE
 
@@ -94,8 +110,10 @@ After you have set it all up, it's time to run the Parse Server.:
 Check that everything is working as expected by running:
 
 ``curl localhost:1337/parse/health``
+<br/><br/>
 
-By the way, this is how the code for connecting a JavaScript SDK instance to your local server looks like, in case you would want to test some queries or test your mobile app. When connecting to Craft, you will need to go to your app **Settings** page
+
+By the way, this is the code for connecting a JavaScript SDK instance to your local server looks like, in case you would want to test some queries or test your mobile app or frontend app. 
 
 JavaScript
 
@@ -103,56 +121,42 @@ JavaScript
 Parse.initialize("YOUR_APP_ID", "YOUR_JAVASCRIPT_KEY");
 Parse.serverURL = 'http://localhost:1337/parse/';
 ```
-⚠️ If the Masterkey needs to be provided, use the following. Please note that the master key should only be used in safe environments and never on client side.
-
-```javascript
-Parse.initialize("YOUR_APP_ID", "YOUR_JAVASCRIPT_KEY", "YOUR_MASTERKEY");
-//javascriptKey is required only if you have it on server.
-
-Parse.serverURL = 'http://YOUR_PARSE_SERVER:1337/parse'
-```
+⚠️ Please note that the ***master key*** should only be used in safe environments and ***never*** on client side.
 
 For more info on how to use Javascript SDK on client side, pls visit the official [Parse Javascript Guide](https://docs.parseplatform.org/js/guide/)
 
+
+
 #### 3.4 Sample Cloud Code Function Query (via cURL)
+
+For Parse-based functions:
 
 Query ```parse/functions/<function-name>``` via POST
 
 ```bash
-curl -X POST \
+$ curl -X POST \
         -H "X-Parse-Application-Id: your-app-id" \
         -H "X-Parse-Master-Key: your-master-key" \
         http://localhost:1337/parse/functions/hello
-{"result":"Hello! and welcome to Cloud Code Functions --from Craft Team"}%
+{"result":"Hello! and welcome to Cloud Code (Parse) Functions --from Craft Team"}%
 
 ```
 
-#### 3.5 Graphql Playground
-
-Go to http://localhost:1337/playground to access GraphQL Playground
-
-
-## Using Parse Dashboard on your local machine
-
-Install the dashboard from npm.
-
-```
-npm install -g parse-dashboard
+For Express-based functions:
+```bash
+$ curl http://localhost:1337/hello-craft
+Hello! and welcome to Cloud Code (Express) Functions --from Craft Team%
 ```
 
-You can launch the dashboard for an app with a single command by supplying an app ID, master key, URL, and name like this:
+<br/>
 
-```
-parse-dashboard --dev --appId yourAppId --masterKey yourMasterKey --serverURL "http://localhost:1337/parse" --appName optionalName
+#### 3.5 Parse Dashboard 
 
-```
-You may set the host, port and mount path by supplying the --host, --port and --mountPath options to parse-dashboard. You can use anything you want as the app name, or leave it out in which case the app ID will be used.
+Parse dashboard is accessible at http://localhost:1337/dashboard
 
-NB: the --dev parameter is disabling production-ready security features, do not use this parameter when starting the dashboard in production. This parameter is useful if you are running on docker.
+<br/><br/>
 
-After starting the dashboard, you can visit http://localhost:4040 in your browser.
-
-## Using the Job Scheduler
+# Using the Job Scheduler
 
 This library is a minimalist tool that fetches all jobs scheduled objects and schedules cron tasks that will run the scheduled jobs.
 
@@ -170,30 +174,13 @@ Parse.Cloud.job("myJob", (request) =>  {
     });
 ```
 
-Then, go to your Craft Dashboard, and schedule that job (```myjob```) you have just created. 
+Then, go to your app, Craft My Apps > Your App > Dashboard > Jobs > Schedule a Job, and schedule that job (```myjob```) you have just created. 
 
-## Using the Email templates
+<br/><br/>
 
-Built-in mail adapter for sending html email templates with Craft platform like (verificationEmail, passwordResetEmail) or a custom email template.
+# Updating and Deploying your changes
 
-To start configuring email templates, please goto your Craft app Settings page and look for email templates section.
-
-You can use {{paramater}} in your template (using handlebarsjs). See [handlebars documentation](https://handlebars-archive.knappi.org/) for more deatils.
-
-Sample query via CURL:
-
-```bash
-curl -X POST \
--H "X-Parse-Application-Id: myAppId" \
--H "X-Parse-Master-Key: masterKey" \
--H "Content-Type: application/json" \
--d '{"to":"email@email.com", "subject": "Subject here", "templatePath": "template path", "templateData": {"data1": "value", "data2": "value"}}' \
-http://localhost:1337/parse/functions/sendMail
-```
-
-## Updating and Deploying your changes
-
-All changes to your code will be automatically deploy via Gitlab CI/CD workflow. 
+All changes to your code (i.e. pushing/merging code to master) will be automatically deploy via Gitlab CI/CD workflow. 
 
 To check if your deployment is finished and Cloud Code is up and running, pls use this URL to get the status:
 
@@ -204,3 +191,77 @@ And it will response:
 ```bash
 {"status":"ok"}
 ```
+
+<br/>
+
+# APIs and SDKs
+
+Use the REST API, GraphQL API or any of the Parse SDKs to see Parse Server in action. Parse Server comes with a variety of SDKs to cover most common ecosystems and languages, such as JavaScript, Swift, ObjectiveC and Android just to name a few.
+
+The following shows example requests when interacting with a local deployment of Parse Server. If you deployed Parse Server remotely, change the URL accordingly.
+
+### REST API
+
+Save object:
+
+```sh
+curl -X POST \
+  -H "X-Parse-Application-Id: YOUR_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{"score":1337}' \
+  http://localhost:1337/parse/classes/GameScore
+```
+
+Call Cloud Code function:
+
+```sh
+curl -X POST \
+  -H "X-Parse-Application-Id: YOUR_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d "{}" \
+  http://localhost:1337/parse/functions/hello
+```
+
+### JavaScript
+
+```js
+// Initialize SDK
+Parse.initialize("YOUR_APP_ID", "unused");
+Parse.serverURL = "http://localhost:1337/parse";
+
+// Save object
+const obj = new Parse.Object("GameScore");
+obj.set("score", 1337);
+await obj.save();
+
+// Query object
+const query = new Parse.Query("GameScore");
+const objAgain = await query.get(obj.id);
+```
+
+### Android
+
+```java
+// Initialize SDK in the application class
+Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
+  .applicationId("YOUR_APP_ID")
+  .server("http://localhost:1337/parse/")   // '/' important after 'parse'
+  .build());
+
+// Save object
+ParseObject obj = new ParseObject("TestObject");
+obj.put("foo", "bar");
+obj.saveInBackground();
+```
+
+### iOS / tvOS / iPadOS / macOS (Swift)
+
+```swift
+// Initialize SDK in AppDelegate
+Parse.initializeWithConfiguration(ParseClientConfiguration(block: {
+  (configuration: ParseMutableClientConfiguration) -> Void in
+    configuration.server = "http://localhost:1337/parse/" // '/' important after 'parse'
+    configuration.applicationId = "YOUR_APP_ID"
+}))
+```
+

@@ -1,77 +1,54 @@
-require("dotenv").config();
+// Example express application adding the parse-server module to expose Parse
+// compatible API routes.
 
-const path = require('path');
-const express = require('express');
-const cors = require('cors');
-const { default: ParseServer, ParseGraphQLServer } = require('parse-server');
+import express from "express";
+import ParseServer from "parse-server";
+import path from "path";
+const args = process.argv || [];
+const test = args.some((arg) => arg.includes("jasmine"));
 
-const options = require('./parse-config');
 const databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
 
 if (!databaseUri) {
-  console.log('DATABASE_URI not specified, falling back to localhost.');
+  console.log("DATABASE_URI not specified, falling back to localhost.");
 }
+const config = require("./parse-config");
 
-const mountPath = process.env.PARSE_MOUNT || '/parse';
-const port = process.env.PORT || 1337;
-const api = new ParseServer(options);
 const app = express();
-app.enable('trust proxy');
-app.use(express.json());
-
-const newrelicParseServerName = process.env.NEWRELIC_PARSE_SERVER_NAME;
-const newrelicLicenseKey = process.env.NEWRELIC_LICENSE_KEY;
-if (newrelicLicenseKey && newrelicParseServerName) {
-  // Tag the user request for analytics purposes
-  const newrelic = require('newrelic');
-  const instrumentedPath = new RegExp('^' + mountPath + '((?!/users/me).)*$');
-  app.use(instrumentedPath, (req, res, next) => {
-    const sessionToken = req.headers['x-parse-session-token'] || req.body['_SessionToken'];
-    if (sessionToken) {
-      const parseServerUrl = req.protocol + '://' + req.get('host') + mountPath;
-      Parse.initialize(options.appId, options.javascriptKey, options.masterKey);
-      Parse.serverURL = parseServerUrl;
-      Parse.User.enableUnsafeCurrentUser();
-      Parse.User.become(sessionToken, { useMasterKey: true }).then(user => {
-        newrelic.addCustomAttribute('user_id', user.id);
-        next();
-      }, (error) => {
-        console.log(error);
-        next();
-      });
-    }
-    else {
-      next();
-    }
-  });
-}
-
-
-app.use(cors());
-
-const parseGraphQLServer = new ParseGraphQLServer(
-  api,
-  {
-    graphQLPath: '/graphql'
-  }
-);
-
-
-parseGraphQLServer.applyGraphQL(app); // Mounts the GraphQL API
 
 // Serve static assets from the /public folder
-app.use(express.static(path.join(__dirname, '/public')));
-
-// Mount your cloud express app
-app.use('/', require('./cloud/main.js').app);
+app.use("/public", express.static(path.join(__dirname, "/public")));
 
 // Serve the Parse API on the /parse URL prefix
-app.use(mountPath, api.app);
+const mountPath = process.env.PARSE_MOUNT || "/parse";
+if (!test) {
+  const api = new ParseServer(config);
+  app.use(mountPath, api.app);
+}
 
-const httpServer = require('http').createServer(app);
-httpServer.listen(port, () => {
-  console.log(`Running on http://localhost:${port}`);
+// Parse Server plays nicely with the rest of your web routes
+app.get("/", function(req, res) {
+  res
+    .status(200)
+    .send(
+      "I dream of being a website.  Please star the parse-server repo on GitHub!"
+    );
 });
 
-// This will enable the Live Query real-time server
-ParseServer.createLiveQueryServer(httpServer);
+// There will be a test page available on the /test path of your server url
+// Remove this before launching your app
+app.get("/test", function(req, res) {
+  res.sendFile(path.join(__dirname, "/public/test.html"));
+});
+
+const port = process.env.PORT || 1337;
+if (!test) {
+  const httpServer = require("http").createServer(app);
+  httpServer.listen(port, function() {
+    console.log("parse-server-example running on port " + port + ".");
+  });
+  // This will enable the Live Query real-time server
+  ParseServer.createLiveQueryServer(httpServer);
+}
+
+export { app, config };

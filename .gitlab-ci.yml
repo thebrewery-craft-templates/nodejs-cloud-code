@@ -1,13 +1,30 @@
 image: node:lts
 
 stages:
+  - build
   - deploy
+
+cache:
+  paths:
+    - node_modules/
 
 .deploy: &deploy
   before_script:
     - echo "Insert your before script here"
   script:
     - echo "Insert your script here"
+
+Build:
+  stage: build
+  script:
+    - node -v
+    - npm install
+  artifacts:
+    paths:
+      - ./node_modules/
+
+  only:
+    - master
 
 Deploy:
   <<: *deploy

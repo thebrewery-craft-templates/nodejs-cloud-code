@@ -1,5 +1,7 @@
 # Welcome to the private repo of your application!
-> This Cloud Code supports nodemon, Jasmine, ESLint & ES6 using ESM. The ESM (EcmaScript Modules) specification introduced with the ES6 (or ES2015) norm describes how import and export modules in JavaScript. From now, it is possible to use ESM quasi nativelly -- without the help of Babel!
+> This Cloud Code supports nodemon, Jasmine, ESLint & ES6 using esm. ```esm``` is a simple, babel-less, bundle-less ECMAScript module loader. This fast, production ready, zero dependency loader is all you need to support ECMAScript modules in Node 6+. See the release [post](https://medium.com/web-on-the-edge/tomorrows-es-modules-today-c53d29ac448c
+ ) and [video](https://medium.com/web-on-the-edge/tomorrows-es-modules-today-c53d29ac448c
+) for details!
 
 <br/>
 

@@ -200,6 +200,8 @@ Use the REST API, GraphQL API or any of the Parse SDKs to see Parse Server in ac
 
 The following shows example requests when interacting with a local deployment of Parse Server. If you deployed Parse Server remotely, change the URL accordingly.
 
+For full documenttaion, please visit https://docs.parseplatform.org
+
 ### REST API
 
 Save object:
@@ -207,6 +209,7 @@ Save object:
 ```sh
 curl -X POST \
   -H "X-Parse-Application-Id: YOUR_APP_ID" \
+  -H "X-Parse-Rest-Api-Key: YOUR_REST_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"score":1337}' \
   http://localhost:1337/parse/classes/GameScore
@@ -217,6 +220,7 @@ Call Cloud Code function:
 ```sh
 curl -X POST \
   -H "X-Parse-Application-Id: YOUR_APP_ID" \
+  -H "X-Parse-Rest-Api-Key: YOUR_REST_API_KEY" \
   -H "Content-Type: application/json" \
   -d "{}" \
   http://localhost:1337/parse/functions/hello
@@ -226,7 +230,7 @@ curl -X POST \
 
 ```js
 // Initialize SDK
-Parse.initialize("YOUR_APP_ID", "unused");
+Parse.initialize("YOUR_APP_ID", "YOUR_JAVASCRIPT_KEY");
 Parse.serverURL = "http://localhost:1337/parse";
 
 // Save object
@@ -245,6 +249,7 @@ const objAgain = await query.get(obj.id);
 // Initialize SDK in the application class
 Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
   .applicationId("YOUR_APP_ID")
+  .clientKey("YOUR_CLIENT_KEY")
   .server("http://localhost:1337/parse/")   // '/' important after 'parse'
   .build());
 
@@ -262,6 +267,7 @@ Parse.initializeWithConfiguration(ParseClientConfiguration(block: {
   (configuration: ParseMutableClientConfiguration) -> Void in
     configuration.server = "http://localhost:1337/parse/" // '/' important after 'parse'
     configuration.applicationId = "YOUR_APP_ID"
+    configuration.clientKey = @"parseClientKey"
 }))
 ```
 

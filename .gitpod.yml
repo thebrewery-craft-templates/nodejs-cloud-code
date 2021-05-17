@@ -9,8 +9,7 @@ tasks:
       cp .env.example .env &&
       npm run dev
   - name: pgadmin4
-    command: sh ./pgadmin4/setup-web-unattended.sh
-
+    command: sh ./.gitpod/setup-web-unattended.sh
 
 ports:
   - port: 1337

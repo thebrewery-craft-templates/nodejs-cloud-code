@@ -3,10 +3,10 @@ image:
 
 tasks:
   - init: npm install
-    command: npm run dev
-  - command: >
-      psql --command "CREATE USER postgres WITH SUPERUSER PASSWORD 'postgres';" && \
-      psql --command "CREATE DATABASE parse;" && \
+    command: > 
+      npm run dev &&
+      psql --command "CREATE USER postgres WITH SUPERUSER PASSWORD 'postgres';" && 
+      psql --command "CREATE DATABASE parse;" && 
       mv .env.example .env
 ports:
   - port: 1337

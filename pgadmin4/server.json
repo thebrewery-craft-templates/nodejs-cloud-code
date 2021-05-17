@@ -1,0 +1,14 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "Gitpod PostgreSQL",
+            "Group": "Default Servers",
+            "Port": 5432,
+            "Username": "postgres",
+            "Host": "127.0.0.1",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "postgres"
+        }
+    }
+}
+

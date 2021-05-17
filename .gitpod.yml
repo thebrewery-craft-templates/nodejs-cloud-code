@@ -6,10 +6,9 @@ tasks:
     command: > 
       psql --command "CREATE USER postgres WITH SUPERUSER PASSWORD 'postgres';" && 
       psql --command "CREATE DATABASE parse;" && 
+      sh ./.gitpod/setup-web-unattended.sh &&
       cp .env.example .env &&
       npm run dev
-  - name: pgadmin4
-    command: sh ./.gitpod/setup-web-unattended.sh
 
 ports:
   - port: 1337

@@ -6,8 +6,13 @@ tasks:
     command: > 
       psql --command "CREATE USER postgres WITH SUPERUSER PASSWORD 'postgres';" && 
       psql --command "CREATE DATABASE parse;" && 
-      mv .env.example .env &&
+      cp .env.example .env &&
+      docker run --rm -p 5050:5050 thajeztah/pgadmin4 &&
       npm run dev
+
 ports:
   - port: 1337
     onOpen: open-preview
+
+  - port: 5050
+    onOpen: open-browser

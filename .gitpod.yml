@@ -4,7 +4,9 @@ image:
 tasks:
   - init: npm install
     command: npm start
-
+  - init: >
+      psql --command "CREATE USER postgres WITH SUPERUSER PASSWORD 'postgres';" &&
+      psql --command "CREATE DATABASE parse;"
 ports:
-  - port: 3000
+  - port: 1337
     onOpen: open-preview

@@ -18,7 +18,7 @@ export PGADMIN_SETUP_EMAIL=pgadmin@gitpod.io
 export PGADMIN_SETUP_PASSWORD=postgres
 export PGADMIN_CONFIG_DEFAULT_SERVER=0.0.0.0
 export PGADMIN_LISTEN_ADDRESS=0.0.0.0
-export PGADMIN_SERVER_JSON_FILE=./pgadmin4/server.json
+export PGADMIN_SERVER_JSON_FILE=./.gitpod/server.json
 
 /home/gitpod/.pyenv/shims/pgadmin4 &
 

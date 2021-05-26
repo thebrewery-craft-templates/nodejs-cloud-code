@@ -1,6 +1,7 @@
-import ParseServer from "parse-server";
-import { config, app } from "../../index.js";
-import Config from "../../node_modules/parse-server/lib/Config";
+const http = require("http");
+const { ParseServer } = require("parse-server");
+const { config, app } = require("../../index.js");
+const Config = require("../../node_modules/parse-server/lib/Config");
 
 let parseServerState = {};
 const dropDB = async () => {
@@ -17,7 +18,7 @@ const dropDB = async () => {
 async function startParseServer() {
   delete config.databaseAdapter;
   const parseServerOptions = Object.assign(config, {
-    databaseURI: "postgres://postgres:postgres@localhost:5432/cloud-code",
+    databaseURI: "postgres://postgres:postgres@localhost:5432/test",
     masterKey: "test",
     javascriptKey: "test",
     appId: "test",
@@ -28,15 +29,16 @@ async function startParseServer() {
     silent: true,
   });
   const parseServer = new ParseServer(parseServerOptions);
-  app.use(parseServerOptions.mountPath, parseServer.app);
-  const httpServer = require("http").createServer(app);
-  httpServer.listen(parseServerOptions.port, function() {
-    Object.assign(parseServerState, {
-      parseServer,
-      httpServer,
-      expressApp: app,
-      parseServerOptions,
-    });
+  app.use(parseServerOptions.mountPath, parseServer);
+  const httpServer = http.createServer(app);
+  await new Promise((resolve) =>
+    httpServer.listen(parseServerOptions.port, resolve)
+  );
+  Object.assign(parseServerState, {
+    parseServer,
+    httpServer,
+    expressApp: app,
+    parseServerOptions,
   });
   return parseServerOptions;
 }
@@ -51,4 +53,9 @@ async function stopParseServer() {
   parseServerState = {};
 }
 
-export { dropDB, startParseServer, stopParseServer, parseServerState };
+module.exports = {
+  dropDB,
+  startParseServer,
+  stopParseServer,
+  parseServerState,
+};

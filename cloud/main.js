@@ -1,5 +1,5 @@
-import "./functions";
-import "./job-scheduler";
+require("./functions");
+require("./job-scheduler");
 
 /*
  * If you want to use Express-based Cloud Code,

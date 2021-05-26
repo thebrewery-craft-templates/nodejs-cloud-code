@@ -2,7 +2,7 @@
  * Express-based Cloud Code Example
  */
 
-import express from "express";
+const express = require("express");
 const app = express();
 
 app.get("/hello-craft", (req, res) => {

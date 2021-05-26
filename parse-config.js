@@ -5,7 +5,8 @@
  */
 
 module.exports = {
-  databaseURI: process.env.DATABASE_URI || "mongodb://localhost:27017/dev",
+  databaseURI:
+    process.env.DATABASE_URI || "postgres://user:pass@localhost:5432/dbname",
   appId: process.env.APP_ID || "myAppId",
   clientKey: process.env.CLIENT_KEY || "myClientKey",
   masterKey: process.env.MASTER_KEY || "masterKey", //Add your master key here. Keep it secret!

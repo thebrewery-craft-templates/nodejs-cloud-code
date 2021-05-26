@@ -15,7 +15,8 @@
     "newrelic": "^7.4.0",
     "parse": "^3.2.0",
     "parse-dashboard": "^2.1.0",
-    "parse-server": "^4.5.0"
+    "parse-server": "^4.5.0",
+    "parse-server-email-template-adapter": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",

@@ -18,11 +18,7 @@ Build:
   stage: build
   script:
     - node -v
-    - npm i -g yarn
     - yarn
-  artifacts:
-    paths:
-      - ./node_modules/
 
   only:
     - master

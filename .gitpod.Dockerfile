@@ -13,6 +13,6 @@ RUN apt-get update && \
 
 RUN pip install pgadmin4
 
-RUN  echo "import mimetypes\nmimetypes.add_type('text/javascript', '.js')" >> find /home/gitpod/.pyenv/versions -name config_distro.py | grep pgadmin4
+CMD  echo "import mimetypes\nmimetypes.add_type('text/javascript', '.js')" >> find /home/gitpod/.pyenv/versions -name config_distro.py | grep pgadmin4
 
 USER gitpod

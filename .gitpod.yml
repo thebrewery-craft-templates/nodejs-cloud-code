@@ -12,7 +12,7 @@ tasks:
 
 ports:
   - port: 1337
-    onOpen: open-preview
+    onOpen: open-browser
   - port: 5050
     onOpen: open-browser
   - port: 5432

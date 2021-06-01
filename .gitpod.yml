@@ -2,11 +2,11 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - init: npm install
-    command: > 
+  - before: sh ./.pgadmin4/setup-web-unattended.sh
+    init: npm install
+    command: >
       psql --command "CREATE USER postgres WITH SUPERUSER PASSWORD 'postgres';" && 
-      psql --command "CREATE DATABASE parse;" && 
-      sh ./.gitpod/setup-web-unattended.sh &&
+      psql --command "CREATE DATABASE parse;" &&
       cp .env.example .env &&
       npm run dev
 
@@ -17,3 +17,4 @@ ports:
     onOpen: open-browser
   - port: 5432
     onOpen: ignore
+    visibility: private

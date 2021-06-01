@@ -13,8 +13,4 @@ RUN apt-get update && \
 
 RUN pip install pgadmin4
 
-RUN touch config_distro.py
-RUN echo "import mimetypes\nmimetypes.add_type('text/javascript', '.js')\nHELP_PATH = '../../docs/en_US/_build/html/'\nMINIFY_HTML = False" >> config_distro.py
-RUN bash -l -c 'cp config_distro.py $(find /home/gitpod/.pyenv/versions -name config_distro.py | grep pgadmin4)'
-
 USER gitpod

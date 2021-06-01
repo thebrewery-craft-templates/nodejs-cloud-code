@@ -2,7 +2,7 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - before: sh ./.pgadmin4/setup-web-unattended.sh
+  - before: sh ./pgadmin4/setup-web-unattended.sh
     init: npm install
     command: >
       psql --command "CREATE USER postgres WITH SUPERUSER PASSWORD 'postgres';" && 

@@ -6,7 +6,7 @@ tasks:
     init: npm install
     command: >
       psql --command "CREATE USER postgres WITH SUPERUSER PASSWORD 'postgres';" && 
-      psql --command "CREATE DATABASE parse;" &&
+      psql --command "CREATE DATABASE cloudcode;" &&
       cp .env.example .env &&
       npm run dev
 

@@ -159,6 +159,12 @@ Parse Dashboard is a standalone dashboard for managing your Parse Server apps.
 
 Your app's Parse dashboard is accessible at http://localhost:1337/dashboard
 
+Login credentials:
+```
+username: admin
+password: password
+```
+
 <br/><br/>
 
 # Helpful Scripts

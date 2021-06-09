@@ -26,7 +26,7 @@ const app = express();
 app.enable("trust proxy");
 app.use(express.json());
 
-if (process.env.IS_DEVELOPMENT === false && !test) {
+if (!test) {
   /* New Relic setup */
   const newrelicParseServerName = process.env.NEWRELIC_PARSE_SERVER_NAME;
   const newrelicLicenseKey = process.env.NEWRELIC_LICENSE_KEY;

@@ -1,27 +1,13 @@
 image: node:lts
 
 stages:
-  - build
   - deploy
-
-cache:
-  paths:
-    - node_modules/
 
 .deploy: &deploy
   before_script:
     - echo "Insert your before script here"
   script:
     - echo "Insert your script here"
-
-Build:
-  stage: build
-  script:
-    - node -v
-    - yarn
-
-  only:
-    - master
 
 Deploy:
   <<: *deploy

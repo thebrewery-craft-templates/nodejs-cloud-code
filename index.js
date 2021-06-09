@@ -105,11 +105,13 @@ if (!test) {
   httpServer.listen(port, () => {
     console.log(`REST API Running on http://localhost:${port}/parse`);
   });
-  if (process.env.IS_DEVELOPMENT) {
-    const parseGraphQLServer = new ParseGraphQLServer(api, {
+
+  const parseGraphQLServer = new ParseGraphQLServer(api, {
       graphQLPath: "/graphql",
     });
-    parseGraphQLServer.applyGraphQL(app);
+  parseGraphQLServer.applyGraphQL(app);
+  
+  if (process.env.IS_DEVELOPMENT) {  
     console.log(
       `Parse Dashboard Running on http://localhost:${port}/dashboard. 
  **From Dashboard you can access GraphQL playground, go to Core > API Console > GraphQL Console`

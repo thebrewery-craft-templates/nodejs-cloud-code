@@ -63,41 +63,47 @@ You can go to your Gitlab profile and find the repo of your app. It will be in `
 
 After you have the repo URL, go to your terminal and run `git clone <url>`.
 
-### 2. Install the npm modules of your app
+This will require you to have **node.js** and **npm** installed on your system. We recommend **node.js v12.x** or the latest LTS version. We also recommend using yarn as an alternative. Install yarn globally - `npm install yarn -g`
 
-This will require you to have **node.js** and **npm** installed on your system. We recommend **node.js v12.x** or the latest LTS version.
+```
+npm install
+-or-
+yarn install
+``` 
 
 ### 3. Open the directory in your favorite Editor/IDE
 
-In this article, we will use Visual Studio Code.
+We highly recommend to use Visual Studio Code.
 
 #### 3.1. Configure your local Parse Server
 
-Set your development environment by copying **_.env.example_** into **_.env_** and adjust the necessary variables. Normally, you will only need to change the DATABASE_URI.
+>Please make sure you have PostgreSQL client and server installed on your local machine. You can also install pgadmin4 to manage your database. And create the database that you will use for your local instance. 
 
 Make necessary adjusments to your `parse-config.js` if needed. Keep in mind that this configuration will **only** affect your local Parse Server. It will look something like this:
 
 ```javascript
 module.exports = {
   databaseURI:
-    process.env.DATABASE_URI || "postgres://user:pass@localhost:5432/dbname",
+    process.env.DATABASE_URI ||
+    "postgres://postgres:postgres@localhost:5432/parse", //format: "postgres://user:password@localhost:5432/dbname"
   appId: process.env.APP_ID || "myAppId",
   clientKey: process.env.CLIENT_KEY || "myClientKey",
-  masterKey: process.env.MASTER_KEY || "masterKey", //Add your master key here. Keep it secret!
+  masterKey: process.env.MASTER_KEY || "masterKey",
   serverURL: process.env.SERVER_URL || "http://localhost:1337/parse",
+  graphQLServerURL:
+    process.env.GRAPHQL_SERVER_URL || "http://localhost:1337/graphql",
   javascriptKey: process.env.JAVASCRIPT_KEY || "myJSKey",
   restAPIKey: process.env.REST_API_KEY || "restAPIKey",
   cloud: process.env.PARSE_CLOUD_CODE || "./cloud/main.js",
+  isDev: process.env.IS_DEVELOPMENT || 1, //this will set some rules for local development
   liveQuery: {
-    classNames: [], // List of classes to support for query subscriptions example: [ 'Posts', 'Comments' ]
+    classNames: [], // List of classes (from My Apps > Your App > Dasnboard > Browser) to support for query subscriptions example: [ 'User', 'Posts', 'Comments' ]
   },
-  verbose: false,
+  verbose: false, // Set the logging to verbose
 };
 ```
 
 Here, you can change things like your **Application Id** and **Master Key**. You will be running this Parse instance only locally, but it's still a good practice to change your **Master Key**.
-
-It's also recommended to run a local instance of MongoDB or PostgreSQL, **we recommend to use PostgreSQL.**
 
 In case you want to use the same data as your Craft app, you can simply import it in your local PostgreSQL.
 
@@ -109,7 +115,11 @@ If you want to export/import data from your Craft app, you can use your Adminer 
 
 After you have set it all up, it's time to run your Cloud Code:
 
-`npm run dev`
+```
+npm run dev
+-or-
+yarn run dev
+```
 
 #### 3.3. Check it
 
@@ -223,7 +233,7 @@ And it will response:
 
 <br/>
 
-# Running on Remote Local using Gitpod
+# (Optional) Running on Remote Local using Gitpod
 
 Gitpod is an open source Cloud IDE and developer platform automating the provisioning of ready-to-code development environments. It streamlines developer workflows by providing prebuilt, collaborative development environments in your browser.
 Designed for applications running in the cloud, Gitpod frees engineering teams from the friction of manually setting-up local dev environments, saving dozens of hours and enabling a new level of collaboration to create applications much more quickly than ever before.
@@ -232,91 +242,10 @@ Free Gitpod access comes with free 50 hours/month access
 
 For more info, please visit gitpod.io
 
-Your Cloud Code repo is already integrated with Stratpoint's Gitlab and ready to use, just type this URL format in your browser: 
+Your Cloud Code repo is gitpod-ready, just type this URL format in your browser: 
 
 ```https://gitpod.io/#https://your-full-repo-url```
 
 For example:
 
 ```https://gitpod.io/#https://gitlab.stratpoint.dev/craft/xxxxx/xxxxx/your-project-name```
-
-<br/>
-
-
-
-# APIs and SDKs
-
-Use the REST API, GraphQL API or any of the Parse SDKs to see and test your Cloud Code in action. It comes with a variety of SDKs to cover most common ecosystems and languages, such as JavaScript, Swift, ObjectiveC and Android just to name a few.
-
-The following shows example requests when interacting with a local deployment of Cloud Code. If you want to test the deployed Craft Cloud Code, change the URL accordingly.
-
-For full list of SDKs and Libraries for your Frontend apps, please visit https://parseplatform.org/#sdks
-
-### REST API
-
-Save object:
-
-```sh
-curl -X POST \
-  -H "X-Parse-Application-Id: YOUR_APP_ID" \
-  -H "X-Parse-Rest-Api-Key: YOUR_REST_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"score":1337}' \
-  http://localhost:1337/parse/classes/GameScore
-```
-
-Call Cloud Code function:
-
-```sh
-curl -X POST \
-  -H "X-Parse-Application-Id: YOUR_APP_ID" \
-  -H "X-Parse-Rest-Api-Key: YOUR_REST_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d "{}" \
-  http://localhost:1337/parse/functions/hello
-```
-
-### JavaScript
-
-```js
-// Initialize SDK
-Parse.initialize("YOUR_APP_ID", "YOUR_JAVASCRIPT_KEY");
-Parse.serverURL = "http://localhost:1337/parse";
-
-// Save object
-const obj = new Parse.Object("GameScore");
-obj.set("score", 1337);
-await obj.save();
-
-// Query object
-const query = new Parse.Query("GameScore");
-const objAgain = await query.get(obj.id);
-```
-
-### Android
-
-```java
-// Initialize SDK in the application class
-Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
-  .applicationId("YOUR_APP_ID")
-  .clientKey("YOUR_CLIENT_KEY")
-  .server("http://localhost:1337/parse/")   // '/' important after 'parse'
-  .build());
-
-// Save object
-ParseObject obj = new ParseObject("TestObject");
-obj.put("foo", "bar");
-obj.saveInBackground();
-```
-
-### iOS / tvOS / iPadOS / macOS (Swift)
-
-```swift
-// Initialize SDK in AppDelegate
-Parse.initializeWithConfiguration(ParseClientConfiguration(block: {
-  (configuration: ParseMutableClientConfiguration) -> Void in
-    configuration.server = "http://localhost:1337/parse/" // '/' important after 'parse'
-    configuration.applicationId = "YOUR_APP_ID"
-    configuration.clientKey = @"parseClientKey"
-}))
-```

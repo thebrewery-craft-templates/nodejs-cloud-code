@@ -1,206 +1,233 @@
-## Welcome to the private repo of your application. Let's start brewing! 
+# Welcome to the private repo of your Cloud Code!
 
-##### Cloud Code development
+> This Cloud Code supports Node.js LTS version, nodemon, Jasmine, ESLint & ES6 modules.
+
+Please read our blog about writing better Cloud Code - https://docs.thebrewery.app/blog/2021/05/20/better-cloud-code 
+
+# What is Cloud Code?
+
+For complex apps, sometimes you just need a bit of logic that isn’t running on web browser or mobile device. Cloud Code makes this possible.
+
+Cloud Code is easy to use because it’s built on the same Parse JavaScript SDK that powers thousands of apps. The only difference is that this code runs in your Parse Server rather than running on the user’s mobile device or web browser. When you update your Cloud Code, it becomes available to all web and mobile environments instantly. You don’t have to wait for a new release of your application. This lets you change app behavior on the fly and add new features faster.
+
+<br/>
+
+# Let's start brewing!
+
+### 1. Node Version
+
+We highly recommend the LTS version (Node.js 12 or higher).
+
+### 2. Cloud Code development
+
+#### 2.1. For Parse-based code
+
+All your Parse-based code must reside inside `./cloud` folder.
 
 `./cloud/main.js` is the root file which we import on Craft's cloud. **Don't change the name of the cloud directory nor move it**, or else your Cloud Code will not run properly.
 
-##### Hosting your website
+For Parse Cloud Code reference and guide:
+
+- https://docs.parseplatform.org/cloudcode/guide/
+
+#### 2.2. For Express-based code
+
+All your Express-based code must reside inside `./express` folder.
+
+> Remember that Express-based code does not have API authentication/authorization support. You need to implement your own authentication/authorization to make your Express-based API secure.
+
+### 3. Hosting your website (optional)
 
 `public/` is the directory in which you can put your `html`, `css`, `js`, `images` files, in case you want to host your app website on Craft for example :)
-For example, you can add your Reacat app bundle or build on it.
+For example, you can add your static React app's bundle/build on it.
 
-##### Deploying to Craft
+### 4. Deploying your code
 
-When you `git push` changes to the `master` branch of this repo, Craft automatically deploys the code to the servers that your app is working on. 
+When you `git push` changes to the `master` branch of this repo, Craft automatically deploys the code to the servers that your app is working on.
 
-> Remember every push to the `master` branch triggers a deploy. If you want to push you changes without triggering of a deploy, you can push them to the `development` branch for example and when you are done with all the changes ... just merge with the `master` branch.
+> Remember every push to the `master` branch triggers a deploy. If you want to push you changes without triggering of a deploy, you can push them to another branch, for example `development` branch and when you are done with all the changes ... just merge it with the `master` branch.
 
-## Test Craft Cloud Code locally on your computer
+<br/><br/>
+
+# Test Craft Cloud Code locally on your computer
 
 So, you have created your first Craft app that comes with built in cloud code functionality and are now wondering what would be the best way to test it. Of course, one of the obvious solutions would be to do a `git push` every time, then test it through the API Console, another REST or GraphQL client, or your app directly. However, you and I both know that there has to be a better way, right?
 
-## Run a local instance of Parse Server
+## Run a local instance of Cloud Code
 
 Running a local instance of the Parse Server with your Cloud Code is the first step you should take as it will allow you to iterate on your app much faster and consequently allow us to debug it. Here's how:
 
 ### 1. Clone the source of your app
 
-You can go to your Gitlab profile and find the repo of your app. It will be in `craft > [your project group] > [your app name] > cloud-code-app-name`
+You can go to your Gitlab profile and find the repo of your app. It will be in `craft-okd4 > [your project group] > [your app name] > cloud-code-app-name`
 
-After you have the repo URL, go to your terminal and run `git clone`.
+After you have the repo URL, go to your terminal and run `git clone <url>`.
 
+This will require you to have **node.js** and **npm** installed on your system. We recommend **node.js v12.x** or the latest LTS version. We also recommend using yarn as an alternative. Install yarn globally - `npm install yarn -g`
 
-
-
-
-### 2. Install the npm modules of your app
-
-This will require you to have **node.js** and **npm** installed on your system. We recommend **node.js v10.x** or later.
-
-
+```
+npm install
+-or-
+yarn install
+``` 
 
 ### 3. Open the directory in your favorite Editor/IDE
 
-In this article, we will use Visual Studio Code.
+We highly recommend to use Visual Studio Code.
 
 #### 3.1. Configure your local Parse Server
 
-Set your development environment by renaming ***.env.example*** to ***.env*** and adjust the necessary variables. Normally, you will only need to change the DATABASE_URI.
+>Please make sure you have PostgreSQL client and server installed on your local machine. You can also install pgadmin4 to manage your database. And create the database that you will use for your local instance. 
 
-Make necessary adjusments to your ```parse-config.js``` if needed. Keep in mind that this configuration will **only** affect your local Parse Server. It will look something like this:
-
-JavaScript
+Make necessary adjusments to your `parse-config.js` if needed. Keep in mind that this configuration will **only** affect your local Parse Server. It will look something like this:
 
 ```javascript
 module.exports = {
-  databaseURI: process.env.DATABASE_URI || 'mongodb://localhost:27017/dev',
-  appId: process.env.APP_ID || 'myAppId',
-  clientKey: process.env.CLIENT_KEY || 'myClientKey',
-  masterKey: process.env.MASTER_KEY || 'masterKey', //Add your master key here. Keep it secret!
-  serverURL: process.env.SERVER_URL || 'http://localhost:1337/parse',
-  javascriptKey: process.env.JAVASCRIPT_KEY || 'myJSKey',
-  restAPIKey: process.env.REST_API_KEY || 'restAPIKey',
-  cloud: process.env.PARSE_CLOUD_CODE || './cloud/main.js',
+  databaseURI:
+    process.env.DATABASE_URI ||
+    "postgres://postgres:postgres@localhost:5432/parse", //format: "postgres://user:password@localhost:5432/dbname"
+  appId: process.env.APP_ID || "myAppId",
+  clientKey: process.env.CLIENT_KEY || "myClientKey",
+  masterKey: process.env.MASTER_KEY || "masterKey",
+  serverURL: process.env.SERVER_URL || "http://localhost:1337/parse",
+  graphQLServerURL:
+    process.env.GRAPHQL_SERVER_URL || "http://localhost:1337/graphql",
+  javascriptKey: process.env.JAVASCRIPT_KEY || "myJSKey",
+  restAPIKey: process.env.REST_API_KEY || "restAPIKey",
+  cloud: process.env.PARSE_CLOUD_CODE || "./cloud/main.js",
+  isDev: process.env.IS_DEVELOPMENT || 1, //this will set some rules for local development
   liveQuery: {
-    classNames: [] // List of classes to support for query subscriptions example: [ 'Posts', 'Comments' ]
+    classNames: [], // List of classes (from My Apps > Your App > Dasnboard > Browser) to support for query subscriptions example: [ 'User', 'Posts', 'Comments' ]
   },
-  verbose: false
-}
-
+  verbose: false, // Set the logging to verbose
+};
 ```
 
-Here, you can change things like your **Application Id** and **Master Key**. You will be running this Parse instance only locally, but it's still a good practice to change your **Master Key**. 
+Here, you can change things like your **Application Id** and **Master Key**. You will be running this Parse instance only locally, but it's still a good practice to change your **Master Key**.
 
-It's also recommended to run a local instance of MongoDB or PostgreSQL, **we recommend to use PostgreSQL.** 
+In case you want to use the same data as your Craft app, you can simply import it in your local PostgreSQL.
 
-In case you want to use the same data as your Craft app, you can simply import it in your local PostgreSQL. 
-
-We are using [Adminer](https://www.adminer.org/), a DB management tool and we have a great tutorial on that - [Managing Database Using Adminer](https://serverpilot.io/docs/how-to-manage-your-database-with-adminer/). 
+We are using [Adminer](https://www.adminer.org/), a DB management tool and we have a great tutorial on that - [Managing Database Using Adminer](https://serverpilot.io/docs/how-to-manage-your-database-with-adminer/).
 
 If you want to export/import data from your Craft app, you can use your Adminer credentials from your Craft app **Settings** page.
 
-
-
 #### 3.2. Run it
 
-After you have set it all up, it's time to run the Parse Server.:
+After you have set it all up, it's time to run your Cloud Code:
 
-```npm run dev```
-
-
+```
+npm run dev
+-or-
+yarn run dev
+```
 
 #### 3.3. Check it
 
 Check that everything is working as expected by running:
 
-``curl localhost:1337/parse/health``
+`curl localhost:1337/parse/health`
+<br/><br/>
 
-By the way, this is how the code for connecting a JavaScript SDK instance to your local server looks like, in case you would want to test some queries or test your mobile app. When connecting to Craft, you will need to go to your app **Settings** page
-
-JavaScript
+By the way, this is the code for connecting a JavaScript SDK instance to your local server looks like, in case you would want to test some queries or test your mobile app or frontend app.
 
 ```javascript
 Parse.initialize("YOUR_APP_ID", "YOUR_JAVASCRIPT_KEY");
-Parse.serverURL = 'http://localhost:1337/parse/';
+Parse.serverURL = "http://localhost:1337/parse/";
 ```
-⚠️ If the Masterkey needs to be provided, use the following. Please note that the master key should only be used in safe environments and never on client side.
 
-```javascript
-Parse.initialize("YOUR_APP_ID", "YOUR_JAVASCRIPT_KEY", "YOUR_MASTERKEY");
-//javascriptKey is required only if you have it on server.
-
-Parse.serverURL = 'http://YOUR_PARSE_SERVER:1337/parse'
-```
+⚠️ Please note that the **_master key_** should only be used in safe environments and **_never_** on client side.
 
 For more info on how to use Javascript SDK on client side, pls visit the official [Parse Javascript Guide](https://docs.parseplatform.org/js/guide/)
 
 #### 3.4 Sample Cloud Code Function Query (via cURL)
 
-Query ```parse/functions/<function-name>``` via POST
+For Parse-based functions:
+
+Query `parse/functions/<function-name>` via POST
 
 ```bash
-curl -X POST \
+$ curl -X POST \
         -H "X-Parse-Application-Id: your-app-id" \
         -H "X-Parse-Master-Key: your-master-key" \
         http://localhost:1337/parse/functions/hello
-{"result":"Hello! and welcome to Cloud Code Functions --from Craft Team"}%
+{"result":"Hello! and welcome to Cloud Code (Parse) Functions --from Craft Team"}%
 
 ```
 
-#### 3.5 Graphql Playground
+For Express-based functions:
 
-Go to http://localhost:1337/playground to access GraphQL Playground
-
-
-## Using Parse Dashboard on your local machine
-
-Install the dashboard from npm.
-
-```
-npm install -g parse-dashboard
+```bash
+$ curl http://localhost:1337/hello_craft
+Hello! and welcome to Cloud Code (Express) Functions --from Craft Team%
 ```
 
-You can launch the dashboard for an app with a single command by supplying an app ID, master key, URL, and name like this:
+<br/>
 
+#### 3.5 Parse Dashboard
+
+Parse Dashboard is a standalone dashboard for managing your Parse Server apps.
+
+Your app's Parse dashboard is accessible at http://localhost:1337/dashboard
+
+Login credentials:
 ```
-parse-dashboard --dev --appId yourAppId --masterKey yourMasterKey --serverURL "http://localhost:1337/parse" --appName optionalName
-
+username: admin
+password: password
 ```
-You may set the host, port and mount path by supplying the --host, --port and --mountPath options to parse-dashboard. You can use anything you want as the app name, or leave it out in which case the app ID will be used.
 
-NB: the --dev parameter is disabling production-ready security features, do not use this parameter when starting the dashboard in production. This parameter is useful if you are running on docker.
+<br/><br/>
 
-After starting the dashboard, you can visit http://localhost:4040 in your browser.
+# Helpful Scripts
 
-## Using the Job Scheduler
+These scripts can help you to develop your app for Cloud Code:
+
+`npm run dev` will start your Parse Server in development mode (recommended when working on local).<br/>
+`npm start` will start your Parse Server in production mode.<br/>
+`npm run watch` will start your Parse Server and restart if you make any changes.<br/>
+`npm run lint` will check the linting of your cloud code, tests and index.js, as defined in .eslintrc.json.<br/>
+`npm run lint-fix` will attempt fix the linting of your cloud code, tests and index.js.<br/>
+`npm run prettier` will help improve the formatting and layout of your cloud code, tests and index.js, as defined in .prettierrc.<br/>
+`npm run test` will run any tests that are written in /spec.<br/>
+`npm run coverage` will run tests and check coverage. Output is available in the /coverage folder.
+
+<br/>
+
+# Using the Job Scheduler
 
 This library is a minimalist tool that fetches all jobs scheduled objects and schedules cron tasks that will run the scheduled jobs.
 
 Simply create your job, for example
 
 ```javascript
-Parse.Cloud.job("myJob", (request) =>  {
-      // params: passed in the job call
-      // headers: from the request that triggered the job
-      // log: the ParseServer logger passed in the request
-      // message: a function to update the status message of the job object
-      const { params, headers, log, message } = request;
-      message("I just started");
-      return doSomethingVeryLong(request);
-    });
+Parse.Cloud.job("myJob", (request) => {
+  // params: passed in the job call
+  // headers: from the request that triggered the job
+  // log: the ParseServer logger passed in the request
+  // message: a function to update the status message of the job object
+  const { params, headers, log, message } = request;
+  message("I just started");
+  return doSomethingVeryLong(request);
+});
 ```
 
-Then, go to your Craft Dashboard, and schedule that job (```myjob```) you have just created. 
+Then, go to your app, ```Craft > My Apps > Your App > Dashboard > Jobs > Schedule a Job```
+, and schedule that job (`myjob`) you have just created.
 
-## Using the Email templates
+<br/><br/>
 
-Built-in mail adapter for sending html email templates with Craft platform like (verificationEmail, passwordResetEmail) or a custom email template.
+# Updating and Deploying your changes
 
-To start configuring email templates, please goto your Craft app Settings page and look for email templates section.
-
-You can use {{paramater}} in your template (using handlebarsjs). See [handlebars documentation](https://handlebars-archive.knappi.org/) for more deatils.
-
-Sample query via CURL:
-
-```bash
-curl -X POST \
--H "X-Parse-Application-Id: myAppId" \
--H "X-Parse-Master-Key: masterKey" \
--H "Content-Type: application/json" \
--d '{"to":"email@email.com", "subject": "Subject here", "templatePath": "template path", "templateData": {"data1": "value", "data2": "value"}}' \
-http://localhost:1337/parse/functions/sendMail
-```
-
-## Updating and Deploying your changes
-
-All changes to your code will be automatically deploy via Gitlab CI/CD workflow. 
+All changes to your code (i.e. pushing/merging code to master) will be automatically deploy via Gitlab CI/CD workflow.
 
 To check if your deployment is finished and Cloud Code is up and running, pls use this URL to get the status:
 
 ```bash
 <your cloud code URL>/health
 ```
+
 And it will response:
+
 ```bash
 {"status":"ok"}
 ```
+

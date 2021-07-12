@@ -256,7 +256,7 @@ Sample cURL command
 ```bash
 curl -X POST \
 -H "X-Parse-Application-Id: myAppId" \
--H "-H X-Parse-REST-API-Key: MyRestAPIKey" \
+-H "X-Parse-REST-API-Key: MyRestAPIKey" \
 -H "Content-Type: application/json" \
 -d '{
   "from": "no-reply@thebrewery.app",

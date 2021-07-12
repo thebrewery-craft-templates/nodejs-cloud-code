@@ -2,7 +2,7 @@
 
 > This Cloud Code supports Node.js LTS version, nodemon, Jasmine, ESLint & ES6 modules.
 
-Please read our blog about writing better Cloud Code - https://docs.thebrewery.app/blog/2021/05/20/better-cloud-code 
+Please read our blog about writing better Cloud Code - https://docs.thebrewery.app/blog/2021/05/20/better-cloud-code
 
 # What is Cloud Code?
 
@@ -24,7 +24,7 @@ We highly recommend the LTS version (Node.js 12 or higher).
 
 All your Parse-based code must reside inside `./cloud` folder.
 
-`./cloud/main.js` is the root file which we import on Craft's cloud. **Don't change the name of the cloud directory nor move it**, or else your Cloud Code will not run properly.
+`./cloud/main.js` is the root file which we import on Craft's cloud code. **Don't change the name of the cloud directory nor move it**, or else your Cloud Code will not run properly.
 
 For Parse Cloud Code reference and guide:
 
@@ -69,7 +69,7 @@ This will require you to have **node.js** and **npm** installed on your system. 
 npm install
 -or-
 yarn install
-``` 
+```
 
 ### 3. Open the directory in your favorite Editor/IDE
 
@@ -77,7 +77,7 @@ We highly recommend to use Visual Studio Code.
 
 #### 3.1. Configure your local Parse Server
 
->Please make sure you have PostgreSQL client and server installed on your local machine. You can also install pgadmin4 to manage your database. And create the database that you will use for your local instance. 
+> Please make sure you have PostgreSQL client and server installed on your local machine. You can also install pgadmin4 to manage your database. And create the database that you will use for your local instance.
 
 Make necessary adjusments to your `parse-config.js` if needed. Keep in mind that this configuration will **only** affect your local Parse Server. It will look something like this:
 
@@ -170,9 +170,47 @@ Parse Dashboard is a standalone dashboard for managing your Parse Server apps.
 Your app's Parse dashboard is accessible at http://localhost:1337/dashboard
 
 Login credentials:
+
 ```
 username: admin
 password: password
+```
+
+<br/><br/>
+
+# Folder Structure
+
+> Note: (\*)Required. **Don't change the built-in name of the cloud file/directory nor move it**, or else your Cloud Code will not run properly.
+
+```
+ .
+ ├── README.md
+ ├── cloud_ # Your Parse cloud code functions.
+ │ ├── functions.js # Sample location for your cloud code functions.
+ │ ├── job-scheduler.js* # Our built-in function for Parse Job scheduling. Please don't edit/change/remove this dile.
+ │ ├── mailer.js # Our built-in function for send mail.
+ │ └── main.js* # The root file which we import on Craft's cloud code. Please don't edit/change/remove this file.
+ ├── express*
+ │ └── index.js # Ideal folder and location for your express-based functions.
+ ├── index.js* # Your root index file. Please don't edit/change/remove it.
+ ├── logs # Default log location. This will store on your local drive.
+ ├── newrelic.js* # Please don't edit/change/remove this file.
+ ├── package.json
+ ├── parse-config.js # Your local configuration env file. We also support dotenv.
+ ├── public* # You can host static site from here.
+ │ ├── brewery.png
+ │ ├── craft.png
+ │ ├── css
+ │ │ └── main.css
+ │ └── index.html
+ └── spec # Ideal location for your unit testing scripts. You can also install and use other testing libraries.
+
+    ├── Tests.spec.js
+    ├── helper.js
+    ├── support
+    │   └── jasmine.json
+    └── utils
+        └── test-runner.js
 ```
 
 <br/><br/>
@@ -192,6 +230,63 @@ These scripts can help you to develop your app for Cloud Code:
 
 <br/>
 
+# Using the Brewery Nodemailer API
+
+This is our built-in Nodemailer-based email sending API. For more info please visit https://www.npmjs.com/package/@brewery/nodemailer-handlebars
+
+API URL: https://api-domain-url/parse/functions/sendMail
+
+Method: POST
+
+Parameters:
+
+- from - please use `no-reply@thebrewery.app`
+- to - the recipient's email
+- subject - the email subject
+- template - template filename. The default and built-in template name is `index`
+- context
+  - header - email header, it could be plain text or html
+  - salutation - email salutation , it could be plain text or html
+  - body - email body, it could be plain text or html
+  - signature - email siganture, it could be plain text or html
+  - footer - additional messages, it could be plain text or html
+
+Sample cURL command
+
+```bash
+curl -X POST \
+-H "X-Parse-Application-Id: myAppId" \
+-H "-H X-Parse-REST-API-Key: MyRestAPIKey" \
+-H "Content-Type: application/json" \
+-d '{
+  "from": "no-reply@thebrewery.app",
+  "to": "recipient@mail.com",
+  "subject": "This is a Nodemailer - Test",
+  "template": "index",
+  "context": {
+    "header": "<img src=\"https://i1.wp.com/community.nodemailer.com/wp-content/uploads/2015/10/n2-2.png\" width=\"50%\" height=\"50%\">",
+    "salutation": "<h1>Hi there,</h1>",
+    "body": "<h2>This is a test email!</h2>",
+    "signature": "Sincerly Yours, <br/> The Brewery Team",
+    "footer": "<i>P.S. Don'\''t reply to this email </i>"
+  }
+}' \
+https://api-domain-url/parse/functions/sendMail
+```
+
+If you want to use this on your local environment, you need to provide your own SMTP credentials and configure it on your dotenv file. For example,
+
+```bash
+SMTP_SSL=true
+EMAIL_FROM_ADDRESS=email@mail.com
+SMTP_USERNAME=xxxxx
+SMTP_PASSWORD=xxxxxx
+SMTP_PORT=xxx
+SMTP_HOST=xxxx
+```
+
+And you need to edit `./cloud/mailer.js` to use your own SMTP settings.
+
 # Using the Job Scheduler
 
 This library is a minimalist tool that fetches all jobs scheduled objects and schedules cron tasks that will run the scheduled jobs.
@@ -210,7 +305,7 @@ Parse.Cloud.job("myJob", (request) => {
 });
 ```
 
-Then, go to your app, ```Craft > My Apps > Your App > Dashboard > Jobs > Schedule a Job```
+Then, go to your app, `Craft > My Apps > Your App > Dashboard > Jobs > Schedule a Job`
 , and schedule that job (`myjob`) you have just created.
 
 <br/><br/>
@@ -242,10 +337,10 @@ Free Gitpod access comes with free 50 hours/month access
 
 For more info, please visit gitpod.io
 
-Your Cloud Code repo is gitpod-ready, just type this URL format in your browser: 
+Your Cloud Code repo is gitpod-ready, just type this URL format in your browser:
 
-```https://gitpod.io/#https://your-full-repo-url```
+`https://gitpod.io/#https://your-full-repo-url`
 
 For example:
 
-```https://gitpod.io/#https://gitlab.stratpoint.dev/craft/xxxxx/xxxxx/your-project-name```
+`https://gitpod.io/#https://gitlab.stratpoint.dev/craft/xxxxx/xxxxx/your-project-name`

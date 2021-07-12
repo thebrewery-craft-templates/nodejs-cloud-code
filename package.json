@@ -9,13 +9,13 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@brewery/nodemailer-handlebars": "^1.0.6",
     "@brewery/parse-job-scheduler": "^1.0.1",
+    "aws-smtp-credentials": "^1.0.0",
     "cors": "^2.8.5",
-    "dotenv": "^9.0.2",
     "newrelic": "^7.4.0",
     "parse": "^3.2.0",
-    "parse-dashboard": "^2.1.0",
-    "parse-server": "^4.5.0",
+    "parse-server": "^4.2.0",
     "parse-server-email-template-adapter": "^1.0.2"
   },
   "devDependencies": {
@@ -24,6 +24,7 @@
     "@babel/preset-env": "^7.14.2",
     "babel-watch": "^7.4.1",
     "concurrently": "^6.1.0",
+    "dotenv": "^9.0.2",
     "eslint": "^7.26.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "2.23.2",
@@ -31,7 +32,8 @@
     "eslint-plugin-promise": "5.1.0",
     "jasmine": "3.7.0",
     "nodemon": "^2.0.7",
-    "nyc": "15.1.0"
+    "nyc": "15.1.0",
+    "parse-dashboard": "^2.1.0"
   },
   "scripts": {
     "dev": "concurrently --kill-others 'npm run server'",

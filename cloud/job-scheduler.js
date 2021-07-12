@@ -13,7 +13,7 @@ if (!test) {
   JobsScheduler.init({
     serverURL: process.env.SERVER_URL || "http://localhost:1337/parse",
     appId: process.env.APP_ID || "myAppId",
-    masterKey: process.env.MASTER_KEY || "masterKey",
+    masterKey: process.env.MASTER_KEY || "myMasterKey",
   });
 
   // Recreates all crons when the server is launched

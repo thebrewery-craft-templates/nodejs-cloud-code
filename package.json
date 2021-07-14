@@ -13,6 +13,7 @@
     "@brewery/parse-job-scheduler": "^1.0.1",
     "aws-smtp-credentials": "^1.0.0",
     "cors": "^2.8.5",
+    "dotenv": "^9.0.2",
     "newrelic": "^7.4.0",
     "parse": "^3.2.0",
     "parse-server": "^4.2.0"
@@ -23,7 +24,6 @@
     "@babel/preset-env": "^7.14.2",
     "babel-watch": "^7.4.1",
     "concurrently": "^6.1.0",
-    "dotenv": "^9.0.2",
     "eslint": "^7.26.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "2.23.2",

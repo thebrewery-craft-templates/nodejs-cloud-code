@@ -17,9 +17,8 @@ module.exports = {
   javascriptKey: process.env.JAVASCRIPT_KEY || "myJSKey",
   restAPIKey: process.env.REST_API_KEY || "myRestAPIKey",
   cloud: process.env.PARSE_CLOUD_CODE || "./cloud/main.js",
-  isDev: process.env.IS_DEVELOPMENT || 1, //this will set some rules for local development
   liveQuery: {
     classNames: [], // List of classes (from My Apps > Your App > Dasnboard > Browser) to support for query subscriptions example: [ 'User', 'Posts', 'Comments' ]
   },
-  verbose: false
+  verbose: false,
 };

@@ -15,8 +15,7 @@
     "cors": "^2.8.5",
     "newrelic": "^7.4.0",
     "parse": "^3.2.0",
-    "parse-server": "^4.2.0",
-    "parse-server-email-template-adapter": "^1.0.2"
+    "parse-server": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
@@ -37,7 +36,7 @@
   },
   "scripts": {
     "dev": "concurrently --kill-others 'npm run server'",
-    "server": "VERBOSE=1 nodemon ./index.js",
+    "server": "VERBOSE=1 NODE_ENV=development nodemon ./index.js",
     "start": "nodemon ./index.js",
     "lint": "eslint --cache ./cloud && eslint --cache index.js && eslint --cache ./spec",
     "lint-fix": "eslint --cache --fix ./cloud && eslint --cache --fix index.js && eslint --cache --fix ./spec",

@@ -79,7 +79,7 @@ We highly recommend to use Visual Studio Code.
 
 > Please make sure you have PostgreSQL client and server installed on your local machine. You can also install pgadmin4 to manage your database. And create the database that you will use for your local instance.
 
-Make necessary adjusments to your `parse-config.js` if needed. Keep in mind that this configuration will **only** affect your local Parse Server. It will look something like this:
+Make necessary adjustments to your `parse-config.js` if needed. Keep in mind that this configuration will **only** affect your local Parse Server. It will look something like this:
 
 ```javascript
 module.exports = {
@@ -97,7 +97,7 @@ module.exports = {
   cloud: process.env.PARSE_CLOUD_CODE || "./cloud/main.js",
   isDev: process.env.IS_DEVELOPMENT || 1, //this will set some rules for local development
   liveQuery: {
-    classNames: [], // List of classes (from My Apps > Your App > Dasnboard > Browser) to support for query subscriptions example: [ 'User', 'Posts', 'Comments' ]
+    classNames: [], // List of classes (from My Apps > Your App > Dashboard > Browser) to support for query subscriptions example: [ 'User', 'Posts', 'Comments' ]
   },
   verbose: false, // Set the logging to verbose
 };
@@ -187,12 +187,14 @@ password: password
  ├── README.md
  ├── cloud_ # Your Parse cloud code functions.
  │ ├── functions.js # Sample location for your cloud code functions.
- │ ├── job-scheduler.js* # Our built-in function for Parse Job scheduling. Please don't edit/change/remove this dile.
+ │ ├── job-scheduler.js* # Our built-in function for Parse Job scheduling. Please don't edit/change/remove this file.
  │ ├── mailer.js # Our built-in function for send mail.
  │ └── main.js* # The root file which we import on Craft's cloud code. Please don't edit/change/remove this file.
  ├── express*
  │ └── index.js # Ideal folder and location for your express-based functions.
+ ├── cors-config.js # You may set the domain URL here for restricting allowed hosts.
  ├── index.js* # Your root index file. Please don't edit/change/remove it.
+ ├── files # Default file location. Uploaded files are encrypted by default.
  ├── logs # Default log location. This will store on your local drive.
  ├── newrelic.js* # Please don't edit/change/remove this file.
  ├── package.json
@@ -204,7 +206,6 @@ password: password
  │ │ └── main.css
  │ └── index.html
  └── spec # Ideal location for your unit testing scripts. You can also install and use other testing libraries.
-
     ├── Tests.spec.js
     ├── helper.js
     ├── support
@@ -230,6 +231,14 @@ These scripts can help you to develop your app for Cloud Code:
 
 <br/>
 
+# Using CORS allowed hosts restrictions
+
+By default, CORS is enabled and it allows access from any origins.
+
+You may restrict allowed hosts by editing `./cors-config.js`.
+
+<br/>
+
 # Using the Brewery Nodemailer API
 
 This is our built-in Nodemailer-based email sending API. For more info please visit https://www.npmjs.com/package/@brewery/nodemailer-handlebars
@@ -248,7 +257,7 @@ Parameters:
   - header - email header, it could be plain text or html
   - salutation - email salutation , it could be plain text or html
   - body - email body, it could be plain text or html
-  - signature - email siganture, it could be plain text or html
+  - signature - email signature, it could be plain text or html
   - footer - additional messages, it could be plain text or html
 
 Sample cURL command
@@ -267,7 +276,7 @@ curl -X POST \
     "header": "<img src=\"https://i1.wp.com/community.nodemailer.com/wp-content/uploads/2015/10/n2-2.png\" width=\"50%\" height=\"50%\">",
     "salutation": "<h1>Hi there,</h1>",
     "body": "<h2>This is a test email!</h2>",
-    "signature": "Sincerly Yours, <br/> The Brewery Team",
+    "signature": "Sincerely Yours, <br/> The Brewery Team",
     "footer": "<i>P.S. Don'\''t reply to this email </i>"
   }
 }' \
@@ -286,6 +295,8 @@ SMTP_HOST=xxxx
 ```
 
 And you need to edit `./cloud/mailer.js` to use your own SMTP settings.
+
+<br/>
 
 # Using the Job Scheduler
 

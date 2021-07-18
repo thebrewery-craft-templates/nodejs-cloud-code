@@ -192,13 +192,13 @@ password: password
  │ └── main.js* # The root file which we import on Craft's cloud code. Please don't edit/change/remove this file.
  ├── express*
  │ └── index.js # Ideal folder and location for your express-based functions.
- ├── cors-config.js # You may set the domain URL here for restricting allowed hosts.
+ ├── cors.config.js # You may set the domain URL here for restricting allowed hosts.
  ├── index.js* # Your root index file. Please don't edit/change/remove it.
  ├── files # Default file location. Uploaded files are encrypted by default.
  ├── logs # Default log location. This will store on your local drive.
  ├── newrelic.js* # Please don't edit/change/remove this file.
  ├── package.json
- ├── parse-config.js # Your local configuration env file. We also support dotenv.
+ ├── parse.config.js # Your local configuration env file. We also support dotenv.
  ├── public* # You can host static site from here.
  │ ├── brewery.png
  │ ├── craft.png

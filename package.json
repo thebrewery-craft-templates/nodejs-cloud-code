@@ -12,6 +12,7 @@
     "@brewery/nodemailer-handlebars": "^1.0.6",
     "@brewery/parse-job-scheduler": "^1.0.1",
     "@parse/fs-files-adapter": "^1.2.0",
+    "@parse/s3-files-adapter": "^1.6.2",
     "aws-smtp-credentials": "^1.0.0",
     "cors": "^2.8.5",
     "dotenv": "^9.0.2",

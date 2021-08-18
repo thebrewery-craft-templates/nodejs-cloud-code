@@ -65,7 +65,7 @@ if (!test && config.filesAdapter.module === "@parse/s3-files-adapter") {
 	// This will run cron job to remove orphaned files
 	var CronJob = require("cron").CronJob;
 	var job = new CronJob(
-		"0 0 * * * *",
+		"0 0 0 * * *", // Run the Job every 12 Midnight Server Time
 		function() {
 			cleanUpS3Bucket();
 		},
@@ -174,8 +174,17 @@ function cleanUpS3Bucket() {
 	const AWS = require("aws-sdk");
 
 	const { options } = config.filesAdapter;
+	const bucketOptions = options.bucket.split("/");
+	if (!bucketOptions || bucketOptions.length < 2) {
+		throw new Error("Invalid S3 bucket name provided");
+	}
+
+	const bucket = bucketOptions[0];
+	bucketOptions.shift();
+	const prefix = bucketOptions.join("/");
+
 	const s3Options = {
-		params: { Bucket: options.bucket },
+		params: { Bucket: bucket, Prefix: prefix },
 		region: options.region,
 		signatureVersion: options.signatureVersion,
 		globalCacheControl: options.globalCacheControl,
@@ -196,7 +205,8 @@ function cleanUpS3Bucket() {
 					const fileNames = parseFiles.map((file) => file.fileName);
 
 					for (const s3Obj of data.Contents) {
-						if (fileNames.indexOf(s3Obj.Key) === -1) {
+						s3ObjKeyFileName = s3Obj.Key.split("/").pop();
+						if (fileNames.indexOf(s3ObjKeyFileName) === -1) {
 							deleteFilesInS3(s3Obj.Key, s3Client);
 						}
 					}

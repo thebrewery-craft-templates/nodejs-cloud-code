@@ -70,7 +70,8 @@ if (!test && config.filesAdapter.module === "@parse/s3-files-adapter") {
 			cleanUpS3Bucket();
 		},
 		null,
-		true
+		true,
+		"Asia/Manila"
 	);
 	job.start();
 }
@@ -170,7 +171,7 @@ if (!test) {
  */
 
 function cleanUpS3Bucket() {
-	console.log("Cleaning up S3 bucket");
+	console.log("Cleaning up S3 bucket", new Date().toString());
 	const AWS = require("aws-sdk");
 
 	const { options } = config.filesAdapter;

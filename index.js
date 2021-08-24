@@ -7,6 +7,7 @@ require("dotenv").config();
 const path = require("path");
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
 const { default: ParseServer, ParseGraphQLServer } = require("parse-server");
 const ParseDashboard = require("parse-dashboard");
 const args = process.argv || [];
@@ -75,6 +76,8 @@ if (!test && config.filesAdapter.module === "@parse/s3-files-adapter") {
 	);
 	job.start();
 }
+
+app.use(helmet());
 
 // This will enable and handle your CORS settings
 try {

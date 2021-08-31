@@ -18,7 +18,7 @@ export PGADMIN_SETUP_EMAIL=$PGADMIN_DEFAULT_EMAIL
 export PGADMIN_SETUP_PASSWORD=$PGADMIN_DEFAULT_PASSWORD
 export PGADMIN_CONFIG_DEFAULT_SERVER=0.0.0.0
 export PGADMIN_LISTEN_ADDRESS=0.0.0.0
-export PGADMIN_SERVER_JSON_FILE=./pgadmin4/servers.json
+export PGADMIN_SERVER_JSON_FILE=./.gitpod/pgadmin4/servers.json
 
 /home/gitpod/.pyenv/shims/pgadmin4 &
 

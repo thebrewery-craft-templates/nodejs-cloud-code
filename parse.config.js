@@ -7,7 +7,7 @@
 module.exports = {
   databaseURI:
     process.env.DATABASE_URI ||
-    "postgres://postgres:postgres@localhost:5432/parse", //format: "postgres://user:password@localhost:5432/dbname"
+    "postgres://postgres:postgres@localhost:5432/cloudcode", //format: "postgres://user:password@localhost:5432/dbname"
   appId: process.env.APP_ID || "myAppId",
   clientKey: process.env.CLIENT_KEY || "myClientKey",
   masterKey: process.env.MASTER_KEY || "myMasterKey",
@@ -24,7 +24,7 @@ module.exports = {
   filesAdapter: {
     module: "@parse/s3-files-adapter",
     options: {
-      bucket: process.env.S3_BUCKET_NAME,
+      bucket: process.env.S3_BUCKET_NAME || "myBucket",
       // optional:
       region: "us-west-2", // default value
       bucketPrefix: "", // default value

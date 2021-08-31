@@ -3,11 +3,10 @@ image:
 
 tasks:
   - before: sh ./.gitpod/pgadmin4/setup-web-unattended.sh
-    init: npm install
     command: >
       psql --command "CREATE USER postgres WITH SUPERUSER PASSWORD 'postgres';" && 
       psql --command "CREATE DATABASE cloudcode;" &&
-      cp .env.example .env &&
+      npm install &&
       npm run dev
 
 ports:

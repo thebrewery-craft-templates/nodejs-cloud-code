@@ -18,7 +18,7 @@ module.exports = {
   restAPIKey: process.env.REST_API_KEY || "myRestAPIKey",
   cloud: process.env.PARSE_CLOUD_CODE || "./cloud/main.js",
   liveQuery: {
-    classNames: [], // List of classes (from My Apps > Your App > Dasnboard > Browser) to support for query subscriptions (PubSub) example: [ 'User', 'Posts', 'Comments' ]
+    classNames: [], // List of classes (from My Apps > Your App > Dashboard > Browser) to support for query subscriptions (PubSub) example: [ 'User', 'Posts', 'Comments' ]
   },
   verbose: false,
   filesAdapter: {

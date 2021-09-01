@@ -14,7 +14,7 @@ const args = process.argv || [];
 const test = args.some((arg) => arg.includes("jasmine"));
 
 const config = require("./parse.config");
-const databaseUri = process.env.DATABASE_URI;
+const databaseUri = process.env.DATABASE_URI || config.databaseURI;
 
 if (!databaseUri) {
   console.log("DATABASE_URI not specified, falling back to localhost.");
@@ -79,7 +79,7 @@ if (!test && config.filesAdapter.module === "@parse/s3-files-adapter") {
 
 if (process.env.NODE_ENV !== "development") apps.use(helmet());
 
-// This will enable and handle your CORS settings
+//This will enable and handle your CORS settings
 try {
   allowedOrigins = require("./cors.config");
   if (Object.values(allowedOrigins).length !== 0) {
@@ -121,9 +121,16 @@ if (process.env.NODE_ENV === "development" && !test) {
     "/dashboard",
     new ParseDashboard(
       {
+        allowInsecureHTTP: true,
+        trustProxy: 1,
         apps: [
           {
-            serverURL: config.serverURL,
+            serverURL:
+              process.env.USER === "gitpod"
+                ? `https://1337-${
+                    new URL(process.env.GITPOD_WORKSPACE_URL).hostname
+                  }/parse`
+                : config.serverURL,
             graphQLServerURL: config.graphQLServerURL,
             appId: config.appId,
             masterKey: config.masterKey,

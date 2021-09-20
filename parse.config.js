@@ -2,7 +2,19 @@
  * PLEASE NOTE THAT THESE CONFIGURATIONS ARE FOR LOCAL DEVELOPMENT ONLY.
  * ANY CHANGES HERE MAY NOT REFLECT ON YOUR DEPLOYED PROJECT IN CRAFT.
  *
+ * THESE ARE THE BASIC CONFIGURATIONS FOR YOUR BACKEND.
+ * IF YOU NEED CUSTOM OR OPTIONAL CONFIGS PLEASE USE parse.config.optional.js
+ * For more info about parse server options, please visit https://parseplatform.org/parse-server/api/master/ParseServerOptions.html
  */
+const fs = require("fs");
+
+const path = "./parse.config.optional.js";
+let otherOptions = "";
+
+if (fs.existsSync(path)) {
+  // path exists
+  otherOptions = require("./parse.config.optional");
+}
 
 module.exports = {
   databaseURI:
@@ -44,4 +56,5 @@ module.exports = {
     },
   },
   maxUploadSize: "2MB",
+  ...otherOptions,
 };

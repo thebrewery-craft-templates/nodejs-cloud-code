@@ -16,4 +16,7 @@ module.exports = [
 
 // This is the default setting, allows access from any origin.
 // You may add restrictions by adding domains (see example above).
-module.exports = [];
+module.exports = [
+  "https://parse-dashboard-craft.apps.dev.thebrewery.app",
+  "https://parse-dashboard-craft-dev.apps.dev.thebrewery.app",
+];

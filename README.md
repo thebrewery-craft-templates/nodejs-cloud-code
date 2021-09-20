@@ -199,6 +199,7 @@ password: password
  ├── newrelic.js* # Please don't edit/change/remove this file.
  ├── package.json
  ├── parse.config.js # Your local configuration env file. We also support dotenv.
+ ├── parse.config.optional.js # Optional configs, see https://parseplatform.org/parse-server/api/master/ParseServerOptions.html
  ├── public* # You can host static site from here.
  │ ├── brewery.png
  │ ├── craft.png

@@ -14,6 +14,7 @@ const args = process.argv || [];
 const test = args.some((arg) => arg.includes("jasmine"));
 
 const config = require("./parse.config");
+console.log(config);
 const databaseUri = process.env.DATABASE_URI || config.databaseURI;
 
 if (!databaseUri) {

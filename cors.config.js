@@ -14,9 +14,18 @@ module.exports = [
 
 */
 
+// For gitpod support
+let gitpodURL = "";
+if (process.env.USER === "gitpod") {
+  gitpodURL = `https://1337-${
+    new URL(process.env.GITPOD_WORKSPACE_URL).hostname
+  }`;
+}
+
 // This is the default setting, allows access from any origin.
 // You may add restrictions by adding domains (see example above).
 module.exports = [
   "https://parse-dashboard-craft.apps.dev.thebrewery.app",
   "https://parse-dashboard-craft-dev.apps.dev.thebrewery.app",
+  gitpodURL,
 ];

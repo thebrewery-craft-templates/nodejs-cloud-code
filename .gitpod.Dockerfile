@@ -1,4 +1,4 @@
-FROM gitpod/workspace-postgres
+FROM gitpod/workspace-postgres:commit-fdafb0c126e20548cd12190323c23cd9ba70b18a
 
 USER root
 

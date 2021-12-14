@@ -130,8 +130,8 @@ if (process.env.NODE_ENV === "development" && !test) {
             serverURL:
               process.env.USER === "gitpod"
                 ? `https://1337-${
-                    new URL(process.env.GITPOD_WORKSPACE_URL).hostname
-                  }/parse`
+                  new URL(process.env.GITPOD_WORKSPACE_URL).hostname
+                }/parse`
                 : config.serverURL,
             graphQLServerURL: config.graphQLServerURL,
             appId: config.appId,

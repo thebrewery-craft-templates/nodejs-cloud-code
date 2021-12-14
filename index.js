@@ -63,10 +63,11 @@ if (!test) {
   }
 }
 
+// TODO: aws cli s3 command: aws s3 ls s3://thebrewery/files/dev/gerald-dev-node-starter-aug-18 --profile craft-dev-s3 --recursive
 if (!test && config.filesAdapter.module === "@parse/s3-files-adapter") {
   // This will run cron job to remove orphaned files
-  var CronJob = require("cron").CronJob;
-  var job = new CronJob(
+  const CronJob = require("cron").CronJob;
+  const job = new CronJob(
     "0 0 0 * * *", // Run the Job every 12 Midnight Server Time
     function() {
       cleanUpS3Bucket();
@@ -78,11 +79,11 @@ if (!test && config.filesAdapter.module === "@parse/s3-files-adapter") {
   job.start();
 }
 
-if (process.env.NODE_ENV !== "development") apps.use(helmet());
+if (process.env.NODE_ENV !== "development") app.use(helmet());
 
 //This will enable and handle your CORS settings
 try {
-  allowedOrigins = require("./cors.config");
+  const allowedOrigins = require("./cors.config");
   if (Object.values(allowedOrigins).length !== 0) {
     app.use(
       cors({
@@ -90,9 +91,9 @@ try {
         origin: (origin, callback) => {
           // allow requests with no origin
           // (like mobile apps or curl requests)
-          if (!origin) return callback(null, true);
+          if (!origin || origin === "null") return callback(null, true);
           if (allowedOrigins.indexOf(origin) === -1) {
-            var msg =
+            const msg =
               "The CORS policy for this site does not " +
               "allow access from the specified Origin.";
             return callback(new Error(msg), false);
@@ -217,7 +218,7 @@ function cleanUpS3Bucket() {
           const fileNames = parseFiles.map((file) => file.fileName);
 
           for (const s3Obj of data.Contents) {
-            s3ObjKeyFileName = s3Obj.Key.split("/").pop();
+            const s3ObjKeyFileName = s3Obj.Key.split("/").pop();
             if (fileNames.indexOf(s3ObjKeyFileName) === -1) {
               deleteFilesInS3(s3Obj.Key, s3Client);
             }
@@ -246,11 +247,11 @@ function getAllFileObjectsInParse() {
 
   return Parse.Schema.all()
     .then(function(res) {
-      var schemasWithFiles = onlyFiles(res);
+      const schemasWithFiles = onlyFiles(res);
       return Promise.all(schemasWithFiles.map(getObjectsWithFilesFromSchema));
     })
     .then(function(results) {
-      var files = results
+      const files = results
         .reduce(function(c, r) {
           return c.concat(r);
         }, [])
@@ -265,8 +266,8 @@ function getAllFileObjectsInParse() {
 function onlyFiles(schemas) {
   return schemas
     .map(function(schema) {
-      var fileFields = Object.keys(schema.fields).filter(function(key) {
-        var value = schema.fields[key];
+      const fileFields = Object.keys(schema.fields).filter(function(key) {
+        const value = schema.fields[key];
         return value.type == "File";
       });
       if (fileFields.length > 0) {
@@ -282,8 +283,8 @@ function onlyFiles(schemas) {
 }
 
 function getAllObjects(baseQuery) {
-  var allObjects = [];
-  var next = function() {
+  let allObjects = [];
+  const next = function() {
     if (allObjects.length) {
       baseQuery.greaterThan(
         "createdAt",
@@ -303,12 +304,12 @@ function getAllObjects(baseQuery) {
 }
 
 function getObjectsWithFilesFromSchema(schema) {
-  var query = new Parse.Query(schema.className);
+  const query = new Parse.Query(schema.className);
   query.select(schema.fields.concat("createdAt"));
   query.ascending("createdAt");
   query.limit(1000);
 
-  var checks = schema.fields.map(function(field) {
+  const checks = schema.fields.map(function(field) {
     return new Parse.Query(schema.className).exists(field);
   });
   query._orQuery(checks);
@@ -317,8 +318,8 @@ function getObjectsWithFilesFromSchema(schema) {
     return results.reduce(function(current, result) {
       return current.concat(
         schema.fields.map(function(field) {
-          var fName = result.get(field) ? result.get(field).name() : "DELETE";
-          var fUrl = result.get(field) ? result.get(field).url() : "DELETE";
+          const fName = result.get(field) ? result.get(field).name() : "DELETE";
+          const fUrl = result.get(field) ? result.get(field).url() : "DELETE";
           return {
             className: schema.className,
             objectId: result.id,

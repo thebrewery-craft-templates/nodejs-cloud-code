@@ -2,7 +2,7 @@ const mail = require("@brewery/nodemailer-handlebars");
 
 // sendMail(mailOptions, engineOptions, SMTPCredentials)
 Parse.Cloud.define("sendMail", async (req) => {
-  let resp = await mail.sendMail(req.params);
+  const resp = await mail.sendMail(req.params);
   //   }
   //  Optional: Your own handlebars template
   //  {

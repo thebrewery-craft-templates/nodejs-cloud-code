@@ -1,7 +1,7 @@
 describe("Parse Server example", () => {
   Parse.User.enableUnsafeCurrentUser();
   it("call function", async () => {
-    const result = await Parse.Cloud.run("hello-craft");
+    const result = await Parse.Cloud.run("hello_craft");
     expect(result).toBe(
       "Hello! and welcome to Cloud Code (Parse) Functions --from Craft Team"
     );

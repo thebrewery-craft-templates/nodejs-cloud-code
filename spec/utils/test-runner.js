@@ -18,7 +18,9 @@ const dropDB = async () => {
 async function startParseServer() {
   delete config.databaseAdapter;
   const parseServerOptions = Object.assign(config, {
-    databaseURI: "postgres://postgres:postgres@localhost:5432/test",
+    databaseURI:
+      process.env.TEST_DATABASE_URI ||
+      "postgres://postgres:postgres@localhost:5432/test",
     masterKey: "test",
     javascriptKey: "test",
     appId: "test",
